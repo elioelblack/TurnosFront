@@ -42,7 +42,7 @@ const LoginView = () => {
   return (
     <Page
       className={classes.root}
-      title="Login"
+      title="Login QueueApp"
     >
       <Box
         display="flex"
@@ -102,7 +102,7 @@ const LoginView = () => {
                     gutterBottom
                     variant="body2"
                   >
-                    Ingresar al sistema de turnos
+                    Ingresar a QueueApp
                   </Typography>
                 </Box>
                 <TextField
