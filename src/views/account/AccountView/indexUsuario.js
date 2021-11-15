@@ -41,8 +41,8 @@ const Account = () => {
     avatar: '/static/images/avatars/default-avatar.png',
     city: 'San Salvador',
     country: 'El Salvador',
-    jobTitle: (userDetail != null) ? userDetail.username + ' (' + userDetail.id_rol.nombre_rol + ') ' : 'loading',
-    name: (userDetail != null) ? userDetail.nombre + " " + userDetail.apellido : 'loading',
+    jobTitle: (userDetail != null) ? userDetail.username + ' (' + userDetail.idRol.nombre + ') ' : 'loading',
+    name: (userDetail != null) ? userDetail.primerNombre + " " + userDetail.primerApellido : 'loading',
     timezone: 'GTM-7'
   };
 
@@ -54,7 +54,7 @@ const Account = () => {
       <Container maxWidth="lg">
         <Grid
           container
-          spacing={3}
+          spacing={1}
         >
           {(action === 'view') && <Grid
             item
@@ -66,8 +66,9 @@ const Account = () => {
           </Grid>}
           {(action !== 'view') && <Grid
             item
-            lg={8}
-            md={6}
+            xl={12}
+            lg={12}
+            md={12}
             xs={12}
           >
             <ProfileDetails />

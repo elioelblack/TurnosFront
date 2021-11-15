@@ -7,24 +7,18 @@ import {
     makeStyles,
     Card,
     Button,
-    Typography,
     TextField,
     CardHeader,
     Divider,
     Grid,
-    Paper, Select,
-    TableContainer, Table, InputLabel, MenuItem,
-    TableHead, TableRow, TableCell, FormControlLabel,
-    TableBody, Checkbox, Radio, RadioGroup, FormControl, FormLabel
+    Select,
+    InputLabel, MenuItem,
+    FormControlLabel,
+    Checkbox, FormControl,
 } from '@material-ui/core';
 import Page from 'src/components/Page';
-import Toolbar from './Toolbar';
 import clsx from 'clsx';
-import solReact from 'src/js/solReact';
-import InputGeneric from '../../../components/InputGeneric';
-import CustomizedSnackbars from '../../../components/CustomizedSnackbars';
-import usuarioService from '../service/usuarioService';
-import moment from 'moment';
+import solReact from 'src/js/solReact';import usuarioService from '../service/usuarioService';
 
 const parameter = solReact.getQueryVariable("action");
 export default class Usuario extends Component {

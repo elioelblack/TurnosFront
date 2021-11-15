@@ -46,7 +46,6 @@ const Results = ({ className, customers, encuestas,user, ...rest }) => {
         <IconButton aria-label="Ver" onClick={onClick}>
           <VisibilityIcon />
         </IconButton>
-        {(user != null && user.idRol.idRol === Constante.ID_ROL_ADMIN) &&
         <>
           <IconButton aria-label="Ver" onClick={onEdit}>
             <EditIcon />
@@ -55,7 +54,6 @@ const Results = ({ className, customers, encuestas,user, ...rest }) => {
             <InfoIcon />
           </IconButton>
           </>
-          }
       </>
     }
     }

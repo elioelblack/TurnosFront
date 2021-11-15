@@ -97,7 +97,7 @@ const DashboardLayout = () => {
     }*/
   ];
 
-  if((userDetail!=null && userDetail.id_rol.id_rol===Constante.ID_ROL_ADMIN)){
+  if((userDetail!=null && userDetail.idRol.idRol===Constante.ID_ROL_ADMIN)){
     items.push(
       {
         href: '/app/users',
@@ -108,6 +108,11 @@ const DashboardLayout = () => {
       href: '/app/settings',
       icon: SettingsIcon,
       title: 'Config'
+    },
+    {
+      href: '/app/stations',
+      icon: UserIcon,
+      title: 'Estaciones'
     },)
   }
 
@@ -123,9 +128,9 @@ const DashboardLayout = () => {
   //Variable de info del usuario
   const user = {
     avatar: '/static/images/avatars/default-avatar.png',
-    jobTitle: (userDetail!=null)?userDetail.username+' ('+userDetail.id_rol.nombre_rol+') ':'loading',
-    name: (userDetail!=null)?userDetail.nombre+" "+userDetail.apellido:'loading',
-    id_user: (userDetail!=null)?userDetail.id_user:0
+    jobTitle: (userDetail!=null)?userDetail.username+' ('+userDetail.idRol.nombre+') ':'loading',
+    name: (userDetail!=null)?userDetail.primerNombre+" "+userDetail.primerApellido:'loading',
+    id_user: (userDetail!=null)?userDetail.idUsuario:0
   };
 
 

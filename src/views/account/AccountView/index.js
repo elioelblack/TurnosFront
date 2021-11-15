@@ -1,14 +1,13 @@
-import React, { useState, useEffect, Component} from 'react';
+import React, { Component} from 'react';
 import {
   Box,
   Container,
   makeStyles,
-  Button
 } from '@material-ui/core';
 import Page from 'src/components/Page';
 import Results from './Results';
 import Toolbar from './Toolbar';
-import EncuestaService,{findAllr} from '../service/usuarioService';
+import UsuarioService from '../service/usuarioService';
 import moment from 'moment';
 
 const useStyles = makeStyles((theme) => ({
@@ -38,7 +37,7 @@ export default class Account extends Component{
 
   userDetail (){
     let user = null;
-    EncuestaService.whoami()
+    UsuarioService.whoami()
       .then(response=>{
         //console.log("response :"+response.data)
         this.setState( {user:response.data})
@@ -51,9 +50,9 @@ export default class Account extends Component{
   }
 
   loadAllEncuestas(){
-    EncuestaService.findAll()
+    UsuarioService.findAll()
     .then(response=>{
-      console.log(response.data)
+      //console.log(response.data)
       this.setState({dataEncuesta:response.data})
       this.makeDataEncuesta(response.data)
     }).catch(
@@ -69,12 +68,12 @@ export default class Account extends Component{
       a=>{
         objTemp.push(
           {
-            nombre: a.nombre+' '+a.apellido,
+            nombre: a.primerNombre+' '+a.primerApellido,
             username:a.username,
-            fecha_registro: moment(a.fecha_registro).format('DD/MM/YYYY HH:MM'),
-            id: a.id_user,
-            rol: a.id_rol.nombre_rol,
-            button:a.id_user
+            fechaNacimiento: moment(a.fechaNacimiento).format('DD/MM/YYYY'),
+            id: a.idUsuario,
+            rol: a.idRol.nombre,
+            button:a.idUsuario
           }
         )
       }

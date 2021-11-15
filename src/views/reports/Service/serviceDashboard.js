@@ -14,7 +14,7 @@ class DashboardService {
     }
 
     whoami(){
-        return axios.get(`${API_URL}/usuario/whoami`);
+        return axios.get(`${API_URL}/admin/user/whoami`);
     }
 }
 

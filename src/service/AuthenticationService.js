@@ -81,7 +81,7 @@ class AuthenticationService {
     }
 
     whoami(){
-        return axios.get(`${API_URL}/usuario/whoami`);
+        return axios.get(`${API_URL}/admin/user/whoami`);
     }
 }
 export default new AuthenticationService();

@@ -6,6 +6,8 @@ import GlobalStyles from 'src/components/GlobalStyles';
 import 'src/mixins/chartjs';
 import theme from 'src/theme';
 import routes from 'src/routes';
+import {ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
   const routing = useRoutes(routes);
@@ -14,6 +16,7 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <GlobalStyles />
       {routing}
+      <ToastContainer />
     </ThemeProvider>
   );
 };

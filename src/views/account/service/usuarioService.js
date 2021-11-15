@@ -6,15 +6,15 @@ const API_URL = AuthenticationService.getApiUrl();
 class UsuarioService {
 
     findAll() {
-        return axios.get(`${API_URL}/usuario/`);
+        return axios.get(`${API_URL}/admin/user/`);
     }
 
     findById(id) {
-        return axios.get(`${API_URL}/usuario/${id}`);
+        return axios.get(`${API_URL}/admin/user/${id}`);
     }
-    
+
     save(data){
-        return axios.post(`${API_URL}/usuario/`,data);
+        return axios.post(`${API_URL}/admin/user/`,data);
     }
 
     update(id, data){
@@ -22,19 +22,27 @@ class UsuarioService {
     }
 
     updateusuario(id, data){
-        return axios.put(`${API_URL}/usuario/${id}`, data);
+        return axios.put(`${API_URL}/admin/user/${id}`, data);
     }
 
     whoami(){
-        return axios.get(`${API_URL}/usuario/whoami`);
+        return axios.get(`${API_URL}/admin/user/whoami`);
     }
 }
 
-export const findAllr = async () => {
+export const findByDui = async (dui) => {
     try {
-        const data = await axios.get(`${API_URL}/usuario/`);
-        return data.data;
-        //return data.map(({ confirmed, deaths, reportDate: date }) => ({ confirmed: confirmed.total, deaths: deaths.total, date }));
+        const data = await axios.get(`${API_URL}/admin/user/dui/${dui}`);
+        return data;
+    } catch (error) {
+        return error;
+    }
+};
+
+export const findByNit = async (nit) => {
+    try {
+        const data = await axios.get(`${API_URL}/admin/user/nit/${nit}`);
+        return data;
     } catch (error) {
         return error;
     }

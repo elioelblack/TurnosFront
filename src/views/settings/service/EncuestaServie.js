@@ -11,8 +11,8 @@ class EncuestaService {
 
     findById(id) {
         return axios.get(`${API_URL}/encuesta/${id}`);
-    }    
-    
+    }
+
     save(data){
         return axios.post(`${API_URL}/encuesta/`,data);
     }
@@ -25,7 +25,7 @@ class EncuestaService {
     findByIdEncuesta(id) {
         return axios.get(`${API_URL}/categoria-pregunta/encuesta/${id}`);
     }
-    
+
     saveEncuesta(data){
         return axios.post(`${API_URL}/categoria-pregunta/`,data);
     }
@@ -34,7 +34,7 @@ class EncuestaService {
     findByIdCategoria(id) {
         return axios.get(`${API_URL}/pregunta/categoria/${id}`);
     }
-    
+
     savePregunta(data){
         return axios.post(`${API_URL}/pregunta/`,data);
     }
