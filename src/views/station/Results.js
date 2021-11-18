@@ -9,7 +9,6 @@ import { DataGrid } from '@material-ui/data-grid';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import EditIcon from '@material-ui/icons/Edit';
 import IconButton from '@material-ui/core/IconButton';
-import Constante from 'src/js/Constante';
 import InfoIcon from '@material-ui/icons/Info';
 
 const useStyles = makeStyles((theme) => ({
@@ -19,15 +18,18 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const Results = ({ className, customers, encuestas,user, ...rest }) => {
+const Results = ({ className, data, ...rest }) => {
   const classes = useStyles();
 
   const columns = [
-    { field: 'id', headerName: 'No. Usuario', minWidth: 100},
-    { field: 'nombre', headerName: 'Nombre Usuario', minWidth: 300,flex: 1 },
-    { field: 'username', headerName: 'Username', minWidth: 200 },
-    { field: 'rol', headerName: 'Rol', minWidth: 200 },
-    { field: 'fechaNacimiento', headerName: 'Fecha Nacimiento', description: 'Fecha de nacimiento del usuario',
+    { field: 'id', headerName: 'Id', minWidth: 100},
+    { field: 'nombre', headerName: 'Nombre de estación', minWidth: 300,flex: 1 },
+    { field: 'activo', headerName: 'Estado', minWidth: 200,disableClickEventBubbling: true,
+      renderCell:(params)=>(
+        params.value?<span style={{color:'blue'}}>Activo</span>:<span style={{color:'red'}}>Inactivo</span>
+      ) },
+    { field: 'idSucursal', headerName: 'Sucursal', minWidth: 200 },
+    { field: 'fechaCreacion', headerName: 'Fecha creación', description: 'Fecha de creación',
       sortable: false,
       minWidth: 400,flex:0.5,
       type: 'dateTime'
@@ -36,11 +38,11 @@ const Results = ({ className, customers, encuestas,user, ...rest }) => {
     renderCell: (params) => {
       const onClick = () => {
         console.log(params.value)
-        window.location = "usuario?action=view&id="+params.value
+        window.location = "station?action=view&id="+params.value
       };
       const onEdit = () => {
         console.log(params.value)
-        window.location = "usuario?action=update&id="+params.value
+        window.location = "station?action=update&id="+params.value
       };
       return <>
         <IconButton aria-label="Ver" onClick={onClick}>
@@ -65,7 +67,7 @@ const Results = ({ className, customers, encuestas,user, ...rest }) => {
       {...rest}
     >
       <div style={{ height: 400, width: '100%' }}>
-      <DataGrid rows={encuestas} columns={columns} pageSize={5}
+      <DataGrid rows={data} columns={columns} pageSize={5}
       filterModel={{
         items: [
           { columnField: 'nombre', operatorValue: 'contains', value: '' },

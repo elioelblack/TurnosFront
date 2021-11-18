@@ -6,7 +6,7 @@ import {
 } from '@material-ui/core';
 import Page from 'src/components/Page';
 import Results from './Results';
-
+import Toolbar from './Toolbar';
 import stationService from './service/stationService';
 import moment from 'moment';
 
@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default class StationView extends Component {
+export default class Stations extends Component {
 
     constructor(props) {
         super(props)
@@ -39,8 +39,8 @@ export default class StationView extends Component {
         stationService.findAll()
             .then(response => {
                 //console.log(response.data)
-                this.setState({ dataEncuesta: response.data })
-                //this.makeDataEncuesta(response.data)
+                this.setState({ data: response.data })
+                this.makeDataFormated(response.data)
             }).catch(
                 err => {
                     console.error(err)
@@ -48,23 +48,25 @@ export default class StationView extends Component {
             )
     }
 
-    makeDataEncuesta(objEncuesta) {
+    makeDataFormated(objEncuesta) {
         let objTemp = []
         objEncuesta.map(
-            a => {
-                objTemp.push(
+            (a) => {
+                return objTemp.push(
                     {
                         nombre: a.nombre,
-                        username: a.username,
-                        fechaNacimiento: moment(a.fechaNacimiento).format('DD/MM/YYYY'),
-                        id: a.idUsuario,
-                        rol: a.idRol.nombre,
-                        button: a.idUsuario
+                        descripcion: a.descripcion,
+                        fechaCreacion: moment(a.fechaCreacion).format('DD/MM/YYYY'),
+                        id: a.idEstacion,
+                        idSucursal:a.idSucursal.nombre,
+                        ocupado: a.ocupado,
+                        activo: Boolean(a.activo),
+                        button:a.idEstacion
                     }
                 )
             }
         )
-        this.setState({ dataEncuestaFormated: objTemp })
+        this.setState({ dataFormated: objTemp })
         //console.log(objTemp)
     }
 
@@ -75,9 +77,9 @@ export default class StationView extends Component {
                 title="Lista de Estaciones de atención"
             >
                 <Container maxWidth={false}>
-                    
+                    <Toolbar/>
                     <Box mt={3}>
-                        <Results encuestas={this.state.data} />
+                        <Results data={this.state.dataFormated} />
                     </Box>
                 </Container>
             </Page>

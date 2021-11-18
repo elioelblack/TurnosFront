@@ -6,7 +6,6 @@ import {
   Button,
   makeStyles
 } from '@material-ui/core';
-import { Search as SearchIcon } from 'react-feather';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -18,8 +17,8 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const onNewEncuesta = ()=>{
-  window.location = "usuario?action=new"
+const onNew = ()=>{
+  window.location = "station?action=new"
 }
 
 const Toolbar = ({ className, ...rest }) => {
@@ -37,10 +36,10 @@ const Toolbar = ({ className, ...rest }) => {
         <Button
           color="primary"
           variant="contained"
-          onClick={onNewEncuesta}
+          onClick={onNew}
           style={{marginTop:10}}
         >
-          Crear Usuario
+          Crear Estación
         </Button>
       </Box>
     </div>

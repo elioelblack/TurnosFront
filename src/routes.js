@@ -14,7 +14,8 @@ import LogoutComponent from './views/auth/LogoutComponent';
 import NewEncuesta from 'src/views/customer/CustomerListView/NewEncuesta';
 import AuthenticationService from './service/AuthenticationService';
 import Usuario2 from 'src/views/account/AccountView/indexUsuario';
-import Station from './views/station';
+import Stations from './views/station';
+import StationView from './views/station/stationView';
 
 AuthenticationService.setupAxiosInterceptors(
   AuthenticationService.createJWTToken(
@@ -45,7 +46,8 @@ const routes = [
       { path: 'settings', element: isUserLogin()?<SettingsView />:<Navigate to="/login" /> },
       { path: 'encuesta', element: isUserLogin()?<NewEncuesta />:<Navigate to="/login" /> },
       { path: 'usuario', element: isUserLogin()?<Usuario2 />:<Navigate to="/login" /> },
-      { path: 'stations', element: isUserLogin()?<Station />:<Navigate to="/login" /> },
+      { path: 'stations', element: isUserLogin()?<Stations />:<Navigate to="/login" /> },
+      { path: 'station', element: isUserLogin()?<StationView/>:<Navigate to="/login" /> },
       { path: '/logout', element: <LogoutComponent /> },
       { path: '*', element: <Navigate to="/404" /> }
     ]
