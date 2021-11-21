@@ -16,6 +16,8 @@ import AuthenticationService from './service/AuthenticationService';
 import Usuario2 from 'src/views/account/AccountView/indexUsuario';
 import Stations from './views/station';
 import StationView from './views/station/stationView';
+import Categories from './views/categoryService';
+import Category from './views/categoryService/category';
 
 AuthenticationService.setupAxiosInterceptors(
   AuthenticationService.createJWTToken(
@@ -48,6 +50,8 @@ const routes = [
       { path: 'usuario', element: isUserLogin()?<Usuario2 />:<Navigate to="/login" /> },
       { path: 'stations', element: isUserLogin()?<Stations />:<Navigate to="/login" /> },
       { path: 'station', element: isUserLogin()?<StationView/>:<Navigate to="/login" /> },
+      { path: 'categories', element: isUserLogin()?<Categories/>:<Navigate to="/login" /> },
+      { path: 'category', element: isUserLogin()?<Category/>:<Navigate to="/login" /> },
       { path: '/logout', element: <LogoutComponent /> },
       { path: '*', element: <Navigate to="/404" /> }
     ]
