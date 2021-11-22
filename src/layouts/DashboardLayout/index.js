@@ -118,6 +118,11 @@ const DashboardLayout = () => {
       href: '/app/categories',
       icon: UserIcon,
       title: 'Categorías de servicios'
+    },
+    {
+      href: '/app/services',
+      icon: UserIcon,
+      title: 'Servicios'
     },)
   }
 
