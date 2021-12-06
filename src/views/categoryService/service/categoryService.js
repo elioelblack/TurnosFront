@@ -28,6 +28,14 @@ class stationService {
     whoami(){
         return axios.get(`${API_URL}/admin/categ/whoami`);
     }
+
+    findAllStations() {
+        return axios.get(`${API_URL}/admin/station/`);
+    }
+
+    findcategoriasPorEstacionesByIdCategoria(idCategoria){
+        return axios.get(`${API_URL}/admin/categ/categorias_estaciones/${idCategoria}`);
+    }
 }
 
 export const findByDui = async (dui) => {

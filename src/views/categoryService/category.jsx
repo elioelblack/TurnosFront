@@ -21,6 +21,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import LinearProgress from '@mui/material/LinearProgress';
 import InputMask from 'react-input-mask';
+import MultipleSelectChip from "./MultipleSelectChip";
 
 const action = solReact.getQueryVariable("action")
 
@@ -36,19 +37,42 @@ export default class Category extends Component {
             icono:'',
             isLoading:false,
             rangoPrioridad: [1,2,3,4,5,6,7,8,9,10],
+            estaciones:[],
+            estacionesSeleted:[]
         }
     }
 
     componentDidMount() {
         if (action === 'view' || action === 'update') {
             const idParam = solReact.getQueryVariable("id")
-            this.loadStationById(idParam)
+            this.loadById(idParam)
             this.setState({ id: idParam })
+            this.loadCategoriasPorEstaciones(idParam)
         }
-
+        this.loadAllStation()
     }
 
-    loadStationById(id) {
+    handleChangeMulti=(value)=>{
+        console.log(value)
+        this.setState({estacionesSeleted:value})
+    }
+
+    loadCategoriasPorEstaciones(idCategoria){
+        categoryService.findcategoriasPorEstacionesByIdCategoria(idCategoria)
+        .then(response=>{
+            let data = response.data
+            let dataFormated = []
+            data.map(e=>{
+                dataFormated.push(e.idEstacion.nombre)
+            })
+            console.log(dataFormated)
+            this.setState({estacionesSeleted:dataFormated})
+        }).catch(err=>{
+            toast.error('Error al cargar estaciones de atencion')
+        })
+    }
+
+    loadById(id) {
         categoryService.findById(id)
             .then(response => {
                 let a = response.data
@@ -62,6 +86,15 @@ export default class Category extends Component {
             }).catch(err => {
                 console.error(err)
             })
+    }
+
+    loadAllStation(){
+        categoryService.findAllStations()
+        .then(response=>{
+            this.setState({estaciones:response.data})
+        }).catch(err=>{
+            toast.error('Error al cargar estaciones de atención')
+        })
     }
 
     handleChange(e) {
@@ -257,6 +290,13 @@ export default class Category extends Component {
                                                     variant="outlined"
                                                 />
                                             </Tooltip>
+                                        </Grid>
+                                        <Grid
+                                            item
+                                            md={3}
+                                            xs={12}
+                                        >
+                                            <MultipleSelectChip data={this.state.estaciones} handleChangeMulti={this.handleChangeMulti} value={this.state.estacionesSeleted}/>
                                         </Grid>
                                     </Grid>
                                 </CardContent>

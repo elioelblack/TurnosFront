@@ -11,8 +11,8 @@ import {
   makeStyles
 } from '@material-ui/core';
 import AuthenticationService from '../../service/AuthenticationService';
-import solReact from '../../js/solReact';
 import Snackbar from '@material-ui/core/Snackbar';
+import Context from 'src/Context';
 
 import Page from 'src/components/Page';
 
@@ -24,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: theme.spacing(3)
   }
 }));
+
 
 const LoginView = () => {
   const classes = useStyles();
@@ -40,6 +41,9 @@ const LoginView = () => {
     setOpen(true)
   }
   return (
+    <Context.Consumer>
+    {({activateAuth})=>{
+      return(
     <Page
       className={classes.root}
       title="Login QueueApp"
@@ -65,13 +69,8 @@ const LoginView = () => {
               AuthenticationService
                 .executeJwtAuthenticationService(values.username, values.password)
                 .then((response) => {
-                    //AuthenticationService.registerSuccessfulLoginForJwt(this.state.username, response.data.token)
-                    var test = solReact.parseJwt(response.data.token);
-                    var USER = test.sub;
-                    AuthenticationService.registerSuccessfulLoginForJwt(USER, response.data.token)
-                    AuthenticationService.setupAxiosInterceptors(AuthenticationService.createJWTToken(response.data.token));
+                    activateAuth(response)
                     window.location = "/app/dashboard" //Ruta para obligar a refrescar y cargar de nuevo las rutas
-                    //navigate('/app/dashboard', { replace: true });
                     isSubmitting = false;
                 }).catch((err) => {
                     //console.log(err.response.data.message)
@@ -160,6 +159,8 @@ const LoginView = () => {
           message={<span id="message-id">{msgToast}</span>}
         />
     </Page>
+      )}}
+    </Context.Consumer>
   );
 };
 

@@ -20,6 +20,7 @@ import Categories from './views/categoryService';
 import Category from './views/categoryService/category';
 import Services from './views/services';
 import ServiceView from './views/services/serviceView';
+import KioskoView from './views/kiosko/kioskoView';
 
 AuthenticationService.setupAxiosInterceptors(
   AuthenticationService.createJWTToken(
@@ -35,7 +36,6 @@ const isUserLogin = () => {
     //console.log("2")
     return false
   }
-
 }
 
 const routes = [
@@ -68,9 +68,11 @@ const routes = [
       { path: 'register', element: <RegisterView /> },
       { path: '404', element: <NotFoundView /> },
       { path: '/', element: <LoginView /> },
-      { path: '*', element: <Navigate to="/404" /> }
+      { path: '*', element: <Navigate to="/404" /> },
+      {path: '/kiosko', element: <KioskoView />}
     ]
   }
 ];
 
-export default routes;
+
+export default routes
