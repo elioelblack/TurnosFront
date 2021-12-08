@@ -3,7 +3,8 @@ import {
     Box,
     Container,
     Typography,
-    makeStyles
+    makeStyles,
+    Button
 } from '@material-ui/core';
 import Page from 'src/components/Page';
 import kioskoService from "./service/kioskoService";
@@ -24,8 +25,8 @@ import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
-
-
+import { ComponentToPrint } from "./genericTicket";
+import ReactToPrint from 'react-to-print';
 class KioskoView extends Component {
     constructor(props) {
         super(props)
@@ -33,7 +34,8 @@ class KioskoView extends Component {
             isLoading: false,
             arrayCategories: [],
             open:false,
-            arrayServices:[]
+            arrayServices:[],
+            turnoSeleted:{}
         }
     }
 
@@ -84,7 +86,6 @@ class KioskoView extends Component {
     }
 
     onClickCategory(e,id) {
-        console.log(id)
         this.renderServices(id)
     }
 
@@ -99,8 +100,14 @@ class KioskoView extends Component {
     loadServicesByIdCategory(id){
         kioskoService.findByIdCategories(id)
         .then(response=>{
-            this.setState({arrayServices:response.data})
-            this.setState({open:true})
+            if(response.data.length==0){
+                this.save(id,null)
+            }else{
+                this.setState({arrayServices:response.data})
+                this.setState({open:true})
+            }
+        }).catch(err=>{
+                console.error(err)
         })
     }
 
@@ -130,19 +137,46 @@ class KioskoView extends Component {
 
     save(idCateg,idServicio){
         let data = {
-            idCategoriaTurnos : {idCategoriaTurnos:idCateg},
-            idServiciosCategoria : {idServicioCategoria:idServicio}
+            idCategoriaTurnos : {idCategoriaTurnos:idCateg}
         }
-
+        if(idServicio!==null){
+            data.idServiciosCategoria = {idServicioCategoria:idServicio}
+        }
         kioskoService.save(data)
         .then(response=>{
-            toast.success('Tome su ticket, gracias!')
+            toast.success('Bienvenido: Tome su ticket, por favor')
+            this.setState({turnoSeleted:response.data,open:false})
+            document.getElementById("btnImprimir").click()
         }).catch(err=>{
             toast.error('Error al generar su turno')
         })
 
     }
 
+    renderTicket(){
+        return(ComponentToPrint)
+    }
+
+    printContent(){
+        return(<ReactToPrint
+            content={this.reactToPrintContent}
+            documentTitle="AwesomeFileName"
+            removeAfterPrint
+            trigger={this.reactToPrintTrigger}
+          />)
+    }
+    setComponentRef = (ref) => {
+        this.componentRef = ref;
+      };
+    
+      reactToPrintContent = () => {
+        return this.componentRef;
+      };
+    
+      reactToPrintTrigger = () => {
+        // Good
+        return <button id="btnImprimir" style={{display:'none'}}>Print pure text using a Class Component</button>;
+      };
     render() {
         const classes = this.useStyles;
         return (
@@ -186,12 +220,21 @@ class KioskoView extends Component {
                 <List style={{marginTop:10}}>
                     {this.renderServicesById()}
                 </List>
-                
                 </Dialog>
+                <ReactToPrint
+                    content={this.reactToPrintContent}
+                    documentTitle="AwesomeFileName"
+                    removeAfterPrint
+                    trigger={this.reactToPrintTrigger}
+                />
+                <div style={{ display: "none" }}>
+                <ComponentToPrint ref={this.setComponentRef} data={this.state.turnoSeleted} />
+                </div>
             </Page>
 
         )
     }
 }
+
 
 export default KioskoView;
