@@ -3,8 +3,7 @@ import {
     Box,
     Container,
     Typography,
-    makeStyles,
-    Button
+    makeStyles
 } from '@material-ui/core';
 import Page from 'src/components/Page';
 import kioskoService from "./service/kioskoService";
@@ -157,26 +156,18 @@ class KioskoView extends Component {
         return(ComponentToPrint)
     }
 
-    printContent(){
-        return(<ReactToPrint
-            content={this.reactToPrintContent}
-            documentTitle="AwesomeFileName"
-            removeAfterPrint
-            trigger={this.reactToPrintTrigger}
-          />)
-    }
     setComponentRef = (ref) => {
         this.componentRef = ref;
-      };
-    
-      reactToPrintContent = () => {
+    };
+
+    reactToPrintContent = () => {
         return this.componentRef;
-      };
-    
-      reactToPrintTrigger = () => {
+    };
+
+    reactToPrintTrigger = () => {
         // Good
-        return <button id="btnImprimir" style={{display:'none'}}>Print pure text using a Class Component</button>;
-      };
+        return <button id="btnImprimir" style={{ display: 'none' }}>Print pure text using a Class Component</button>;
+    };
     render() {
         const classes = this.useStyles;
         return (

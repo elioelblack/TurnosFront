@@ -1,10 +1,6 @@
 import * as React from "react";
-import Avatar from '@mui/material/Avatar';
 import {
-    Box,
-    Container,
     Typography,
-    makeStyles
 } from '@material-ui/core';
 export class ComponentToPrint extends React.PureComponent {
     constructor(props) {
@@ -20,7 +16,6 @@ export class ComponentToPrint extends React.PureComponent {
     render() {
         const { text } = this.props;
         let {data} = this.props;
-        console.log(data)
         return (
             <div className="relativeCSS" style={{width:290, textAlign:'center'}}>
                 <style type="text/css" media="print">

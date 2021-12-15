@@ -80,6 +80,11 @@ const DashboardLayout = () => {
       icon: ShoppingBagIcon,
       title: 'Reporte'
     },
+    {
+      href: '/app/atencion',
+      icon: ShoppingBagIcon,
+      title: 'Atender turno'
+    },
     /*{
       href: '/login',
       icon: LockIcon,
