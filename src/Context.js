@@ -18,11 +18,16 @@ AuthenticationService.setupAxiosInterceptors(
     }
   }
 
+  const stationSelected = ()=>{
+    return sessionStorage.getItem('station');
+  }
+
 let Context = createContext()
 Context.displayName = 'ContextAuth';
 
 const Provider = ({children})=>{
     const [isAuth,setIsAuth] = useState(isUserLogin)
+    const [stationAttended,setStationAttended] = useState(stationSelected)
     console.log('From Context:'+String(children))
     const value ={
         isAuth,
@@ -32,9 +37,14 @@ const Provider = ({children})=>{
             let USER = test.sub;
             AuthenticationService.registerSuccessfulLoginForJwt(USER, response.data.token)
             AuthenticationService.setupAxiosInterceptors(AuthenticationService.createJWTToken(response.data.token));
+        },
+        stationAttended,
+        selectStationToAttend:stationData=>{
+          setStationAttended(stationData)
+          sessionStorage.setItem('station',JSON.stringify(stationData))
         }
     }
-    console.log(value)
+    console.log(value.stationAttended)
     return(
         <Context.Provider value={value}>
             {children}

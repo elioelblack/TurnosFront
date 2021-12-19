@@ -11,7 +11,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import Context from './Context';
 
 const App = () => {
-  console.log(routes)
   const routing = useRoutes(routes);
 
   return (

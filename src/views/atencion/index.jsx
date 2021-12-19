@@ -1,15 +1,14 @@
-import React,{Component} from "react";
+import React, { Component } from "react";
 import {
     Box,
-    Container,
-    Typography,
     makeStyles
 } from '@material-ui/core';
 import Page from 'src/components/Page';
 import EstacionAtencion from "./estacionAtencion";
-
-export default class atencionView extends Component{
-    constructor(props){
+import Context from 'src/Context';
+import AtencionTurno from "./atencionTurno";
+export default class atencionView extends Component {
+    constructor(props) {
         super(props)
     }
 
@@ -22,23 +21,33 @@ export default class atencionView extends Component{
         }
     }));
 
-    render(){
+    render() {
         const classes = this.useStyles;
-        return(
-            <Page
-                className={classes.root}
-                title="Atención de turnos"
-            >
-                <Box
-                    display="flex"
-                    flexDirection="column"
-                    height="100%"
-                    justifyContent="center"
-                    marginTop='15px'
-                >
-                    <EstacionAtencion />
-                </Box>
-            </Page>
+        let value = this.context;
+        return (
+            <Context.Consumer>
+                {({ stationAttended }) => {
+                    return (
+                        <Page
+                            className={classes.root}
+                            title={"Atención de turnos"}
+                        >
+                            <Box
+                                display="flex"
+                                flexDirection="column"
+                                height="100%"
+                                justifyContent="center"
+                                marginTop='15px'
+                            >
+                                {(stationAttended===null||stationAttended===undefined)&&
+                                <EstacionAtencion />}
+                                {(stationAttended!==null||stationAttended!==undefined)&&
+                                <AtencionTurno estacion={stationAttended}/>}
+                            </Box>
+                        </Page>
+                    )
+                }}
+            </Context.Consumer>
         )
     }
 }
