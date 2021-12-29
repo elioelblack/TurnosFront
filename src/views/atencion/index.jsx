@@ -23,7 +23,6 @@ export default class atencionView extends Component {
 
     render() {
         const classes = this.useStyles;
-        let value = this.context;
         return (
             <Context.Consumer>
                 {({ stationAttended }) => {
@@ -41,7 +40,7 @@ export default class atencionView extends Component {
                             >
                                 {(stationAttended===null||stationAttended===undefined)&&
                                 <EstacionAtencion />}
-                                {(stationAttended!==null||stationAttended!==undefined)&&
+                                {(stationAttended!==null&&stationAttended!==undefined)&&
                                 <AtencionTurno estacion={stationAttended}/>}
                             </Box>
                         </Page>

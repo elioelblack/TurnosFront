@@ -80,16 +80,16 @@ export default class EstacionAtencion extends Component {
             .then(response => {
                 toast.success('Estación actualizada correctamente.')
                 this.setState({ open: false })
-                console.log(response.data)
+                //console.log(response.data)
                 this.setStationContext(response.data)
             }).catch(err => {
-                console.error()
+                //console.error()
                 toast.error('Error al actualizar estación!')
             })
     }
 
     setStationContext(data) {
-        console.log('data ' + data)
+        //console.log('data ' + data)
         this.setState({ isStationSelected: data })
 
     }

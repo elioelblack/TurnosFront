@@ -6,7 +6,7 @@ AuthenticationService.setupAxiosInterceptors(
     AuthenticationService.createJWTToken(
         AuthenticationService.getTokenUser())
   )
-  
+
   const isUserLogin = () => {
     //console.log({path, element})
     if (AuthenticationService.isUserLoggedIn()) {
@@ -28,7 +28,7 @@ Context.displayName = 'ContextAuth';
 const Provider = ({children})=>{
     const [isAuth,setIsAuth] = useState(isUserLogin)
     const [stationAttended,setStationAttended] = useState(stationSelected)
-    console.log('From Context:'+String(children))
+    //console.log('From Context:'+String(children))
     const value ={
         isAuth,
         activateAuth:response=>{
@@ -40,11 +40,11 @@ const Provider = ({children})=>{
         },
         stationAttended,
         selectStationToAttend:stationData=>{
-          setStationAttended(stationData)
+          setStationAttended(JSON.stringify(stationData))
           sessionStorage.setItem('station',JSON.stringify(stationData))
         }
     }
-    console.log(value.stationAttended)
+    //console.log(value.stationAttended)
     return(
         <Context.Provider value={value}>
             {children}

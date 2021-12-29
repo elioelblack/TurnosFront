@@ -13,6 +13,30 @@ class AtencionService {
         return axios.get(`${API_URL}/atencion/servicioscateg?id=${id}`);
     }
 
+    findNextTurn() {
+        return axios.get(`${API_URL}/atencion/next`);
+    }
+
+    findAllActiveStates(){
+        return axios.get(`${API_URL}/atencion/states`);
+    }
+
+    updateTurn(id,data){
+        return axios.put(`${API_URL}/turno/${id}`,data);
+    }
+
+    completeTurn(id){
+        return axios.post(`${API_URL}/turno/complete/${id}`);
+    }
+
+    increaseCalled(id){
+        return axios.post(`${API_URL}/turno/called/${id}`);
+    }
+
+    findTurnInProgress(){
+        return axios.get(`${API_URL}/turno/inprogress`);
+    }
+
     save(data) {
         return axios.post(`${API_URL}/atencion/estacion/usuario`,data);
     }

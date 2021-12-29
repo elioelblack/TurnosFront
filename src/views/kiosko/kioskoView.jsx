@@ -136,7 +136,8 @@ class KioskoView extends Component {
 
     save(idCateg,idServicio){
         let data = {
-            idCategoriaTurnos : {idCategoriaTurnos:idCateg}
+            idCategoriaTurnos : {idCategoriaTurnos:idCateg},
+            controlTurnoDetalleSet:[{}]
         }
         if(idServicio!==null){
             data.idServiciosCategoria = {idServicioCategoria:idServicio}

@@ -7,39 +7,165 @@ import {
     Box,
     ButtonGroup,
     BottomNavigation,
-    BottomNavigationAction
+    BottomNavigationAction,
+    Dialog,DialogTitle,DialogContent,DialogActions,
+    Badge,
+    LinearProgress
 } from '@material-ui/core';
 import Toolbar from './Toolbar'
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import Check from '@material-ui/icons/Check';
 import VolumeUp from '@material-ui/icons/VolumeUp';
-import RestoreIcon from '@material-ui/icons/Restore';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import LocationOnIcon from '@material-ui/icons/LocationCity';
+import atencionService from "./service/atencionService";
+import { toast } from "react-toastify";
+
 export default class AtencionTurno extends Component {
     constructor(props) {
         super(props)
         this.state = {
             isLoading: false,
-            estacion: this.props.estacion
+            estacion: this.props.estacion,
+            turnSelected:null,
+            arrayStates:[],
+            SelectedState:1,
+            open:false,
+            turnDetailSelected:null,
+            called:0
         }
     }
 
+    componentDidMount(){
+        this.loadAllActiveStates()
+        this.loadTurnInProgress()
+    }
 
+    loadTurnInProgress(){
+        atencionService.findTurnInProgress()
+        .then(response=>{
+            this.setState({
+                turnSelected:response.data,
+                turnDetailSelected:response.data.controlTurnoDetalleSet[0],
+                called:response.data.controlTurnoDetalleSet[0].noSolicitudes
+            })
+        }).catch(err=>{
+            console.log('Ningun')
+        })
+    }
+
+    onClickNext(){
+        if(this.state.turnSelected!==null){
+            this.loadTurnInProgress()
+            toast.warn('Finalice el turno en atención antes de llamar el próximo turno')
+        }else{
+            atencionService.findNextTurn()
+            .then(response=>{
+                this.setState({
+                    turnSelected:response.data,
+                    turnDetailSelected:response.data.controlTurnoDetalleSet[0],
+                    called:response.data.controlTurnoDetalleSet[0].noSolicitudes
+                })
+            }).catch(err=>{
+                if(err.response.data.status && err.response.data.status===404){
+                    toast.warning(err.response.data.message)
+                }
+            })
+        }
+    }
+
+    loadAllActiveStates(){
+        atencionService.findAllActiveStates()
+        .then(response=>{
+            this.setState({arrayStates:response.data})
+        }).catch(err=>{
+            toast.error('Error al cargar los estados del turno')
+        })
+    }
+
+    renderStates(data){
+        return this.state.arrayStates.map(e=>{
+            return(
+                <BottomNavigationAction key={e.idEstado} value={e.idEstado} label={e.nombre} component={Button}></BottomNavigationAction>
+            )
+        })
+    }
+
+    updateState(idState){
+        this.setLoading(true)
+        let copyTurn = this.state.turnSelected;
+        copyTurn.idEstado={idEstado:idState}
+        this.setState({turnSelected:copyTurn})
+        this.updateTurn(copyTurn.idControlTurno,copyTurn)
+    }
+
+    updateTurn(id,data){
+        atencionService.updateTurn(id,data)
+        .then(response=>{
+            toast.success('Estado del turno '+this.state.turnSelected.noConsecutivo+' actualizado correctamente')
+            this.setLoading(false)
+        }).catch(err=>{
+            toast.error('Error')
+            this.setLoading(false)
+        })
+    }
+
+    onHandleFinalize(){
+        this.setState({open:true})
+    }
+
+    handleCancel(e){
+        this.setState({open:false})
+    }
+
+    handleOk(e){
+        this.setLoading(true)
+        this.completeTurn(this.state.turnSelected.idControlTurno);
+    }
+
+    completeTurn(id){
+        atencionService.completeTurn(id)
+        .then(response=>{
+            this.setLoading(false)
+            this.handleCancel()
+            this.setState({turnSelected:null})
+            toast.success('Turno finalizado con éxito')
+        }).catch(err=>{
+            toast.error('Error')
+            this.setLoading(false)
+        })
+    }
+
+    setLoading(loading){
+        this.setState({isLoading:loading})
+    }
+
+    increaseCalled(){
+        this.setLoading(true)
+        atencionService.increaseCalled(this.state.turnSelected.controlTurnoDetalleSet[0].idControlTurnoDetalle)
+        .then(response=>{
+            this.setState({
+                turnDetailSelected:response.data,
+                called:response.data.noSolicitudes
+            })
+            this.setLoading(false)
+        }).catch(err=>{
+            toast.error('Error al actualizar llamado')
+            this.setLoading(false)
+        })
+    }
 
     render() {
         const buttons = [
-            <Button key="one" startIcon={<VolumeUp />}>Rellamar turno</Button>,
-            <Button key="two" startIcon={<Check />}>Finalizar turno</Button>,
-            <Button key="three" startIcon={<ArrowForwardIosIcon />}>Siguiente turno</Button>,
+            (this.state.turnSelected!==null&&<Button key="one" startIcon={<Badge badgeContent={this.state.called} invisible={this.state.called===0} color="primary"><VolumeUp /></Badge>} onClick={(e)=>this.increaseCalled()}>Rellamar turno</Button>),
+            (this.state.turnSelected!==null&&<Button key="two" startIcon={<Check />} onClick={(e)=>this.onHandleFinalize()}>Finalizar turno</Button>),
+            <Button key="three" startIcon={<ArrowForwardIosIcon />} onClick={(e)=>this.onClickNext()}>Siguiente turno</Button>
         ];
         return (
             <Container maxWidth="xl">
                 <Toolbar title={JSON.parse(this.state.estacion).nombre} />
                 <Grid container spacing={2}>
                     <Grid item xs={12} md={12}>
-                        <Typography variant="h2" gutterBottom style={{ margin: 5 }}>
-                            Atendiendo:
+                        <Typography variant="h3" gutterBottom style={{ margin: 5 }}>
+                            {(this.state.turnSelected!==null?'Atendiendo: '+this.state.turnSelected.noConsecutivo:'Sin turno en proceso')}
                         </Typography>
                         <Box
                             sx={{
@@ -56,27 +182,45 @@ export default class AtencionTurno extends Component {
                             </ButtonGroup>
                         </Box>
                     </Grid>
-
+                    {(this.state.turnSelected!==null&&!this.state.isLoading&&
                     <Grid item xs={12} md={6}>
-                        <Typography variant="h2" gutterBottom style={{ margin: 5 }}>
+                        <Typography variant="h3" gutterBottom style={{ margin: 5 }}>
                             Estado del turno
                         </Typography>
                         <Box sx={{ width: 500 }}>
                             <BottomNavigation
                                 showLabels
-                                value={0}
+                                value={this.state.SelectedState}
                                 onChange={(event, newValue) => {
-                                    alert(newValue)
+                                    this.setState({SelectedState:newValue})
+                                    this.updateState(newValue)
                                 }}
                             >
-                                <BottomNavigationAction label="Recents" icon={<RestoreIcon />} />
-                                <BottomNavigationAction label="Favorites" icon={<FavoriteIcon />} />
-                                <BottomNavigationAction label="Nearby" icon={<LocationOnIcon />} />
+                                {this.renderStates()}
                             </BottomNavigation>
                         </Box>
                     </Grid>
+                    )}
                 </Grid>
-
+                <Dialog
+                    sx={{ '& .MuiDialog-paper': { width: '80%', maxHeight: 435 } }}
+                    maxWidth="xs"
+                    open={this.state.open}
+                >
+                    <DialogTitle>¿Finalizar atención del turno {this.state.turnSelected!==null?this.state.turnSelected.noConsecutivo:''}?</DialogTitle>
+                    <DialogContent dividers>
+                        <Typography variant="body2" gutterBottom>
+                            El turno será finalizado y no se puede revertir.
+                        </Typography>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button autoFocus onClick={this.handleCancel.bind(this)}>
+                            Cancel
+                        </Button>
+                        <Button onClick={this.handleOk.bind(this)}>Ok</Button>
+                    </DialogActions>
+                </Dialog>
+                {this.state.isLoading&&<LinearProgress />}
             </Container>
         )
     }
