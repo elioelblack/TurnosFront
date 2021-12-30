@@ -9,7 +9,8 @@
  * LAST LINE HISTORY
  * */
 
-export default {
+const Constante = {
     ID_ROL_ADMIN:1,
     ID_ROL_TECNICO:2,
 }
+export default Constante;

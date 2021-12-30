@@ -6,8 +6,6 @@ import {
 } from '@material-ui/core';
 import Page from 'src/components/Page';
 import LastestEncuestas from './LastestEncuestas';
-import LatestOrders from './LatestOrders';
-import LatestProducts from './LatestProducts';
 import Sales from './Sales';
 import LastestUsers from './LastestUsers';
 import TotalUsuarios from './TotalUsuarios';

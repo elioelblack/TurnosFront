@@ -48,7 +48,7 @@ export default class AtencionTurno extends Component {
                 called:response.data.controlTurnoDetalleSet[0].noSolicitudes
             })
         }).catch(err=>{
-            console.log('Ningun')
+            //console.log('Ningun')
         })
     }
 

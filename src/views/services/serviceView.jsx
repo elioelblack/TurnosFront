@@ -20,8 +20,6 @@ import FormDialog from '../../views/audit';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import LinearProgress from '@mui/material/LinearProgress';
-import InputMask from 'react-input-mask';
-import { stringify } from "uuid";
 
 const action = solReact.getQueryVariable("action")
 

@@ -6,14 +6,10 @@ import TopBar from './TopBar';
 import AuthenticationService from 'src/service/AuthenticationService';
 import Constante from 'src/js/Constante';
 import {
-  AlertCircle as AlertCircleIcon,
   BarChart as BarChartIcon,
-  Lock as LockIcon,
   Settings as SettingsIcon,
   ShoppingBag as ShoppingBagIcon,
   User as UserIcon,
-  UserPlus as UserPlusIcon,
-  Users as UsersIcon,
   LogOut as LogOutIcon
 } from 'react-feather';
 
@@ -71,16 +67,6 @@ const DashboardLayout = () => {
       title: 'Dashboard'
     },
     {
-      href: '/app/customers',
-      icon: UsersIcon,
-      title: 'Encuestas'
-    },
-    {
-      href: '/app/report',
-      icon: ShoppingBagIcon,
-      title: 'Reporte'
-    },
-    {
       href: '/app/atencion',
       icon: ShoppingBagIcon,
       title: 'Atender turno'
@@ -102,7 +88,7 @@ const DashboardLayout = () => {
     }*/
   ];
 
-  if((userDetail!=null && userDetail.idRol.idRol===Constante.ID_ROL_ADMIN)){
+  if ((userDetail != null && userDetail.idRol.idRol === Constante.ID_ROL_ADMIN)) {
     items.push(
       {
         href: '/app/users',
@@ -110,25 +96,20 @@ const DashboardLayout = () => {
         title: 'Usuarios'
       },
       {
-      href: '/app/settings',
-      icon: SettingsIcon,
-      title: 'Config'
-    },
-    {
-      href: '/app/stations',
-      icon: UserIcon,
-      title: 'Estaciones'
-    },
-    {
-      href: '/app/categories',
-      icon: UserIcon,
-      title: 'Categorías de servicios'
-    },
-    {
-      href: '/app/services',
-      icon: UserIcon,
-      title: 'Servicios'
-    },)
+        href: '/app/stations',
+        icon: UserIcon,
+        title: 'Estaciones'
+      },
+      {
+        href: '/app/categories',
+        icon: UserIcon,
+        title: 'Categorías de servicios'
+      },
+      {
+        href: '/app/services',
+        icon: UserIcon,
+        title: 'Servicios'
+      })
   }
 
   //Agrega de ultimo el menu de Salir

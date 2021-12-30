@@ -65,13 +65,13 @@ class KioskoView extends Component {
             this.state.arrayCategories.map(
                 c => {
                     return (
-                        <Grid item xs={6} md={4}>
+                        <Grid key={c.idCategoriaTurnos} item xs={6} md={4}>
                             <Card sx={{ minWidth: 50 }}
                                 onClickCapture={(e) => this.onClickCategory(e, c.idCategoriaTurnos)}>
                                 <CardActionArea>
                                     <CardContent style={{textAlign:'center'}}>
                                         {(c.iconoCategoria !== null && c.iconoCategoria !== '') && <Icon>{c.iconoCategoria}</Icon>}
-                                        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                                        <Typography sx={{ fontSize: 14 }} color="primary" gutterBottom>
                                             {c.nombre}
                                         </Typography>
                                     </CardContent>
@@ -99,7 +99,7 @@ class KioskoView extends Component {
     loadServicesByIdCategory(id){
         kioskoService.findByIdCategories(id)
         .then(response=>{
-            if(response.data.length==0){
+            if(response.data.length===0){
                 this.save(id,null)
             }else{
                 this.setState({arrayServices:response.data})
@@ -115,7 +115,7 @@ class KioskoView extends Component {
             this.state.arrayServices.map(
                 s => {
                     return (
-                        <React.Fragment>
+                        <React.Fragment key={s.idServicioCategoria}>
                             <ListItem onClickCapture={(e) => this.save(s.idCategoriaTurno.idCategoriaTurnos, s.idServicioCategoria)}
                             key={s.idServicioCategoria} button>
                                 <ListItemButton>

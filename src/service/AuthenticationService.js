@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { get } from 'lodash';
 
 //let API_URL = 'https://eliotest-heroku-spring.herokuapp.com';
 let API_URL = 'http://localhost:8080';

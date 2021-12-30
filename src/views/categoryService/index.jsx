@@ -50,7 +50,7 @@ export default class Categories extends Component {
     makeDataFormated(obj) {
         let objTemp = []
         obj.map(
-            (a) => {
+            (a) => { return (
                 objTemp.push(
                     {
                         nombre: a.nombre,
@@ -61,7 +61,7 @@ export default class Categories extends Component {
                         activo: Boolean(a.activo),
                         button:a.idCategoriaTurnos
                     }
-                )
+                ) )
             }
         )
         this.setState({ dataFormated: objTemp })

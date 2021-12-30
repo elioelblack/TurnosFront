@@ -36,7 +36,6 @@ export default class Account extends Component{
   }
 
   userDetail (){
-    let user = null;
     UsuarioService.whoami()
       .then(response=>{
         //console.log("response :"+response.data)
@@ -44,7 +43,6 @@ export default class Account extends Component{
       }).catch(
         err=>{
           console.error(err)
-          user = null
         }
       )
   }
@@ -65,7 +63,7 @@ export default class Account extends Component{
   makeDataEncuesta(objEncuesta){
     let objTemp = []
     objEncuesta.map(
-      a=>{
+      a=>{ return(
         objTemp.push(
           {
             nombre: a.primerNombre+' '+a.primerApellido,
@@ -75,7 +73,7 @@ export default class Account extends Component{
             rol: a.idRol.nombre,
             button:a.idUsuario
           }
-        )
+        ))
       }
     )
       this.setState({dataEncuestaFormated:objTemp})

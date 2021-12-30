@@ -14,12 +14,11 @@ export class ComponentToPrint extends React.PureComponent {
     setRef = (ref) => (this.canvasEl = ref);
 
     render() {
-        const { text } = this.props;
         let {data} = this.props;
         return (
             <div className="relativeCSS" style={{width:290, textAlign:'center'}}>
                 <style type="text/css" media="print">
-                    {"\ @page { size: 80mm }\ "}
+                    {" @page { size: 80mm } "}
                 </style>
                 <img src={process.env.PUBLIC_URL + '/static/logo.png'} alt='logo' />
 

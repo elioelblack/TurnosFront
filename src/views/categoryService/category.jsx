@@ -62,8 +62,9 @@ export default class Category extends Component {
         .then(response=>{
             let data = response.data
             let dataFormated = []
-            data.map(e=>{
+            data.map(e=>{ return (
                 dataFormated.push(e.idEstacion.nombre)
+                )
             })
             console.log(dataFormated)
             this.setState({estacionesSeleted:dataFormated})

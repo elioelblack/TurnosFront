@@ -1,5 +1,4 @@
 import React, { useState }from 'react';
-import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 import {
@@ -28,7 +27,6 @@ const useStyles = makeStyles((theme) => ({
 
 const LoginView = () => {
   const classes = useStyles();
-  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [msgToast, setMsgToast] = useState(false);
 

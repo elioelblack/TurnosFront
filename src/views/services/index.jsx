@@ -50,16 +50,18 @@ export default class Services extends Component {
         let objTemp = []
         obj.map(
             (a) => {
-                objTemp.push(
-                    {
-                        nombre: a.nombreServicio,
-                        descripcion: a.descripcion,
-                        fechaCreacion: moment(a.fechaCreacion).format('DD/MM/YYYY HH:MM'),
-                        id: a.idServicioCategoria,
-                        ocupado: a.ocupado,
-                        activo: Boolean(a.activo),
-                        button:a.idServicioCategoria
-                    }
+                return (
+                    objTemp.push(
+                        {
+                            nombre: a.nombreServicio,
+                            descripcion: a.descripcion,
+                            fechaCreacion: moment(a.fechaCreacion).format('DD/MM/YYYY HH:MM'),
+                            id: a.idServicioCategoria,
+                            ocupado: a.ocupado,
+                            activo: Boolean(a.activo),
+                            button: a.idServicioCategoria
+                        }
+                    )
                 )
             }
         )
