@@ -80,7 +80,7 @@ const Results = ({ className, data, ...rest }) => {
 
 Results.propTypes = {
   className: PropTypes.string,
-  customers: PropTypes.array.isRequired
+  data: PropTypes.array.isRequired
 };
 
 export default Results;

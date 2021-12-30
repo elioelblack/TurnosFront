@@ -37,7 +37,6 @@ export default class Categories extends Component {
     loadAll() {
         categoryService.findAll()
             .then(response => {
-                console.log(response.data)
                 this.setState({ data: response.data })
                 this.makeDataFormated(response.data)
             }).catch(

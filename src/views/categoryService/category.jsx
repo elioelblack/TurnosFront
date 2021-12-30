@@ -53,7 +53,6 @@ export default class Category extends Component {
     }
 
     handleChangeMulti=(value)=>{
-        console.log(value)
         this.setState({estacionesSeleted:value})
     }
 
@@ -66,7 +65,6 @@ export default class Category extends Component {
                 dataFormated.push(e.idEstacion.nombre)
                 )
             })
-            console.log(dataFormated)
             this.setState({estacionesSeleted:dataFormated})
         }).catch(err=>{
             toast.error('Error al cargar estaciones de atencion')

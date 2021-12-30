@@ -7,7 +7,6 @@ import AuthenticationService from 'src/service/AuthenticationService';
 import Constante from 'src/js/Constante';
 import {
   BarChart as BarChartIcon,
-  Settings as SettingsIcon,
   ShoppingBag as ShoppingBagIcon,
   User as UserIcon,
   LogOut as LogOutIcon

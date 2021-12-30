@@ -19,19 +19,6 @@ const MenuProps = {
     },
 };
 
-const names = [
-    'Oliver Hansen',
-    'Van Henry',
-    'April Tucker',
-    'Ralph Hubbard',
-    'Omar Alexander',
-    'Carlos Abbott',
-    'Miriam Wagner',
-    'Bradley Wilkerson',
-    'Virginia Andrews',
-    'Kelly Snyder',
-];
-
 function getStyles(name, personName, theme) {
     return {
         fontWeight:
@@ -44,13 +31,11 @@ function getStyles(name, personName, theme) {
 export default function MultipleSelectChip({data,handleChangeMulti,value}) {
     const theme = useTheme();
     const [personName, setPersonName] = React.useState(typeof value === 'string' ? value.split(',') : value);
-    console.log(Array.from(value))
     const [dataEstaciones, setDataEstaciones] = React.useState(data);
     const handleChange = (event) => {
         const {
             target: { value },
         } = event;
-        console.log(value)
         setPersonName(
             // On autofill we get a the stringified value.
             typeof value === 'string' ? value.split(',') : value,
@@ -59,15 +44,6 @@ export default function MultipleSelectChip({data,handleChangeMulti,value}) {
         //setValueToSave(personName)
         handleChangeMulti(value)
     };
-
-    const setValueToSave=(data)=>{
-        console.log("Guardando..."+data)
-        
-        data.map((e)=>{
-            console.log("2..."+e.search(data))
-            return e.search(data)
-        })
-    }
 
     React.useEffect(()=>{
         setDataEstaciones(data)
@@ -85,7 +61,6 @@ export default function MultipleSelectChip({data,handleChangeMulti,value}) {
                     onChange={handleChange}
                     input={<OutlinedInput id="select-multiple-chip" label="Estaciones" />}
                     renderValue={(selected) => {
-                        console.log('renderValue:'+selected)
                         return <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
                             {selected.map((value) => (
                                 <Chip key={value} label={value} />

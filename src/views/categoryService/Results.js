@@ -20,7 +20,6 @@ const useStyles = makeStyles((theme) => ({
 
 const Results = ({ className, data, ...rest }) => {
   const classes = useStyles();
-  console.log("entro"+data)
   const columns = [
     { field: 'id', headerName: 'Id', minWidth: 100},
     { field: 'nombre', headerName: 'Nombre de categoría', minWidth: 300,flex: 1 },
@@ -36,11 +35,9 @@ const Results = ({ className, data, ...rest }) => {
     { field: 'button', headerName: 'Accion', minWidth: 200,disableClickEventBubbling: true,flex: 0.5,
     renderCell: (params) => {
       const onClick = () => {
-        console.log(params.value)
         window.location = "category?action=view&id="+params.value
       };
       const onEdit = () => {
-        console.log(params.value)
         window.location = "category?action=update&id="+params.value
       };
       return <>
@@ -79,7 +76,7 @@ const Results = ({ className, data, ...rest }) => {
 
 Results.propTypes = {
   className: PropTypes.string,
-  customers: PropTypes.array.isRequired
+  data: PropTypes.array.isRequired
 };
 
 export default Results;
