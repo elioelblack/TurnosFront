@@ -40,6 +40,14 @@ class AtencionService {
     save(data) {
         return axios.post(`${API_URL}/atencion/estacion/usuario`,data);
     }
+
+    vacateStation(){
+        return axios.post(`${API_URL}/atencion/station/vacate`);
+    }
+
+    findOccupiedStation(){
+        return axios.get(`${API_URL}/atencion/station/occupied`);
+    }
 }
 
 export const findAllr = async () => {

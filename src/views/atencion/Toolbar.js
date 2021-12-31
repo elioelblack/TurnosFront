@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import {
@@ -21,12 +21,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const onNewEncuesta = ()=>{
-  window.location = "usuario?action=new"
-}
-
-const Toolbar = ({ className,title ,...rest }) => {
+const Toolbar = ({ className,title ,vacateStation,...rest }) => {
   const classes = useStyles();
+
+  const onNewEncuesta = ()=>{
+    vacateStation()
+  }
 
   return (
     <div

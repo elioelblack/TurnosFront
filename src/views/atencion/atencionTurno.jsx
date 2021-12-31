@@ -30,13 +30,15 @@ export default class AtencionTurno extends Component {
             SelectedState:1,
             open:false,
             turnDetailSelected:null,
-            called:0
+            called:0,
+            destroyStationContext:this.props.destroyStationAttended
         }
     }
 
     componentDidMount(){
         this.loadAllActiveStates()
         this.loadTurnInProgress()
+        this.loadSelectStationFromApi()
     }
 
     loadTurnInProgress(){
@@ -153,6 +155,30 @@ export default class AtencionTurno extends Component {
         })
     }
 
+    vacateStation=()=> {
+        if (this.state.turnSelected !== null) {
+            toast.warn('Finalice el turno en atención antes de dejar de atender esta estación!')
+        } else {
+            atencionService.vacateStation()
+                .then(response => {
+                    toast.success('Acción realizada con éxito')
+                    this.props.destroyStationAttended()
+                    window.location = "atencion"
+                }).catch(err => {
+                    toast.error('Error ocurrido')
+                })
+        }
+    }
+
+    loadSelectStationFromApi(){
+        atencionService.findOccupiedStation()
+        .then(response=>{
+            //console.log(response.data)
+        }).catch(err=>{
+            this.props.destroyStationAttended()
+        })
+    }
+
     render() {
         const buttons = [
             (this.state.turnSelected!==null&&<Button key="one" startIcon={<Badge badgeContent={this.state.called} invisible={this.state.called===0} color="primary"><VolumeUp /></Badge>} onClick={(e)=>this.increaseCalled()}>Rellamar turno</Button>),
@@ -161,7 +187,7 @@ export default class AtencionTurno extends Component {
         ];
         return (
             <Container maxWidth="xl">
-                <Toolbar title={JSON.parse(this.state.estacion).nombre} />
+                <Toolbar title={JSON.parse(this.state.estacion).nombre} vacateStation={this.vacateStation} />
                 <Grid container spacing={2}>
                     <Grid item xs={12} md={12}>
                         <Typography variant="h3" gutterBottom style={{ margin: 5 }}>
@@ -203,8 +229,8 @@ export default class AtencionTurno extends Component {
                     )}
                 </Grid>
                 <Dialog
-                    sx={{ '& .MuiDialog-paper': { width: '80%', maxHeight: 435 } }}
-                    maxWidth="xs"
+                    sx={{ '& .MuiDialog-paper': { width: '80%', maxHeight: 500 } }}
+                    maxWidth="md"
                     open={this.state.open}
                 >
                     <DialogTitle>¿Finalizar atención del turno {this.state.turnSelected!==null?this.state.turnSelected.noConsecutivo:''}?</DialogTitle>

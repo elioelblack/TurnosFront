@@ -42,9 +42,13 @@ const Provider = ({ children }) => {
     selectStationToAttend: stationData => {
       setStationAttended(JSON.stringify(stationData))
       sessionStorage.setItem('station', JSON.stringify(stationData))
+    },
+    destroyStationAttended:()=>{
+      sessionStorage.removeItem('station');
+      setStationAttended(null)
     }
   }
-  //console.log(value.stationAttended)
+  console.log(value.stationAttended)
   return (
     <ContextReact.Provider value={value}>
       {children}
@@ -56,5 +60,5 @@ const Context = {
   Provider,
   Consumer: ContextReact.Consumer
 }
-
 export default Context;
+

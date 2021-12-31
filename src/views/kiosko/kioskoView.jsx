@@ -71,7 +71,7 @@ class KioskoView extends Component {
                                 <CardActionArea>
                                     <CardContent style={{textAlign:'center'}}>
                                         {(c.iconoCategoria !== null && c.iconoCategoria !== '') && <Icon>{c.iconoCategoria}</Icon>}
-                                        <Typography sx={{ fontSize: 14 }} color="primary" gutterBottom>
+                                        <Typography sx={{ fontSize: 14 }} color="textPrimary" gutterBottom>
                                             {c.nombre}
                                         </Typography>
                                     </CardContent>

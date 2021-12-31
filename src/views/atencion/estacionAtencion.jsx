@@ -30,6 +30,18 @@ export default class EstacionAtencion extends Component {
 
     componentDidMount() {
         this.loadEstacionesDisponibles()
+        this.loadSelectStationFromApi()
+    }
+
+    loadSelectStationFromApi(){
+        atencionService.findOccupiedStation()
+        .then(response=>{
+            console.log(response.data)
+            this.setState({estacionSelected:response.data})
+            this.setStationContext(response.data)
+        }).catch(err=>{
+
+        })
     }
 
     loadEstacionesDisponibles() {
@@ -84,7 +96,11 @@ export default class EstacionAtencion extends Component {
                 this.setStationContext(response.data)
             }).catch(err => {
                 //console.error()
-                toast.error('Error al actualizar estación!')
+                if(err.response.data.status && err.response.data.status===423){
+                    toast.warning(err.response.data.message)
+                }else{
+                    toast.error('Error al actualizar estación!')
+                }
             })
     }
 
