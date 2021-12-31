@@ -81,6 +81,7 @@ export default class Category extends Component {
                     activo: a.activo,
                     prefijo:a.prefijoTurno!=null?a.prefijoTurno:'',
                     prioridad:a.prioridad,
+                    icono:a.iconoCategoria
                 })
             }).catch(err => {
                 console.error(err)
