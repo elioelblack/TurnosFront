@@ -10,27 +10,27 @@ import {
   colors,
   makeStyles
 } from '@material-ui/core';
-import PeopleIcon from '@material-ui/icons/PeopleOutlined';
+import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     height: '100%'
   },
   avatar: {
-    backgroundColor: colors.green[600],
+    backgroundColor: colors.red[600],
     height: 56,
     width: 56
   },
   differenceIcon: {
-    color: colors.green[900]
+    color: colors.red[900]
   },
   differenceValue: {
-    color: colors.green[900],
+    color: colors.red[900],
     marginRight: theme.spacing(1)
   }
 }));
 
-const TotalCustomers = ({ className,data, ...rest }) => {
+const Budget = ({ className,data, ...rest }) => {
   const classes = useStyles();
 
   return (
@@ -42,26 +42,26 @@ const TotalCustomers = ({ className,data, ...rest }) => {
         <Grid
           container
           justify="space-between"
-          spacing={3}
+          spacing={1}
         >
           <Grid item>
             <Typography
               color="textSecondary"
               gutterBottom
-              variant="h6"
+              variant="subtitle2"
             >
-              TOTAL USUARIOS
+              TURNOS ATENDIDOS LOS ÚLTIMOS 30 DÍAS
             </Typography>
             <Typography
               color="textPrimary"
               variant="h3"
             >
-              {(data!==null)?data.total_usuarios:0}
+              {(data!==null)?data.turnos_last_month:0}
             </Typography>
           </Grid>
           <Grid item>
             <Avatar className={classes.avatar}>
-              <PeopleIcon />
+              <AssignmentIndIcon />
             </Avatar>
           </Grid>
         </Grid>
@@ -70,8 +70,8 @@ const TotalCustomers = ({ className,data, ...rest }) => {
   );
 };
 
-TotalCustomers.propTypes = {
+Budget.propTypes = {
   className: PropTypes.string
 };
 
-export default TotalCustomers;
+export default Budget;

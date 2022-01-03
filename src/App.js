@@ -21,7 +21,7 @@ const App = () => {
             <ThemeProvider theme={theme}>
               <GlobalStyles />
               {routing}
-              <ToastContainer />
+              <ToastContainer pauseOnFocusLoss={false} />
             </ThemeProvider>
           )
         }}

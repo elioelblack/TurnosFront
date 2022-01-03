@@ -6,7 +6,7 @@ const API_URL = AuthenticationService.getApiUrl();
 class DashboardService {
 
     loadDashboardInfo() {
-        return axios.get(`${API_URL}/encuesta/dashboard`);
+        return axios.get(`${API_URL}/turno/dashboard`);
     }
 
     loadDashboardInfo2() {

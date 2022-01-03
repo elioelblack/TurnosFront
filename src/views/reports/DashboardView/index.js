@@ -5,12 +5,11 @@ import {
   makeStyles
 } from '@material-ui/core';
 import Page from 'src/components/Page';
-import LastestEncuestas from './LastestEncuestas';
-import Sales from './Sales';
-import LastestUsers from './LastestUsers';
-import TotalUsuarios from './TotalUsuarios';
-import TotalPreguntasRespondidas from './TotalPreguntasRespondidas';
-import TrafficByDevice from './TrafficByDevice';
+import LastTurns from './LastTurns';
+import TurnsByCategory from './TurnsByCategory';
+import TurnsRecalled from './TurnsRecalled';
+import TurnsToday from './TurnsToday';
+import TurnsNoAcude from './TurnsNoAcude';
 import DashboardService from '../Service/serviceDashboard';
 
 const useStyles = makeStyles((theme) => ({
@@ -25,32 +24,20 @@ const useStyles = makeStyles((theme) => ({
 const Dashboard = () => {
   const classes = useStyles();
   const [infoDasboard, setInfoDasboard] = useState(null);
-  const [infoDasboard2, setInfoDasboard2] = useState(null);
 
-  useEffect(()=>{
-    function loadDashboardInfo(){
+  useEffect(() => {
+    function loadDashboardInfo() {
       DashboardService.loadDashboardInfo()
-      .then(response=>{
-        //console.log(response.data)
-        setInfoDasboard(response.data)
-      }).catch(err=>{
-        console.error(err)
-      })
+        .then(response => {
+          //console.log(response.data)
+          setInfoDasboard(response.data)
+        }).catch(err => {
+          console.error(err)
+        })
     }
     loadDashboardInfo();
-  },[]);
-  useEffect(()=>{
-    function loadDashboardInfo2(){
-      DashboardService.loadDashboardInfo2()
-      .then(response=>{
-        console.log(response.data)
-        setInfoDasboard2(response.data)
-      }).catch(err=>{
-        console.error(err)
-      })
-    }
-    loadDashboardInfo2();
-  },[]);
+  }, []);
+
   return (
     <Page
       className={classes.root}
@@ -68,7 +55,7 @@ const Dashboard = () => {
             xl={3}
             xs={12}
           >
-            <LastestEncuestas data={infoDasboard} />
+            <LastTurns data={infoDasboard} />
           </Grid>
           <Grid
             item
@@ -77,7 +64,7 @@ const Dashboard = () => {
             xl={3}
             xs={12}
           >
-            <TotalUsuarios data={infoDasboard} />
+            <TurnsToday data={infoDasboard} />
           </Grid>
           <Grid
             item
@@ -86,7 +73,7 @@ const Dashboard = () => {
             xl={3}
             xs={12}
           >
-            <LastestUsers data={infoDasboard} />
+            <TurnsRecalled data={infoDasboard} />
           </Grid>
           <Grid
             item
@@ -95,7 +82,7 @@ const Dashboard = () => {
             xl={3}
             xs={12}
           >
-            <TotalPreguntasRespondidas data={infoDasboard} />
+            <TurnsNoAcude data={infoDasboard} />
           </Grid>
           <Grid
             item
@@ -104,16 +91,7 @@ const Dashboard = () => {
             xl={9}
             xs={12}
           >
-            <Sales dataP={infoDasboard2} />
-          </Grid>
-          <Grid
-            item
-            lg={4}
-            md={6}
-            xl={3}
-            xs={12}
-          >
-            <TrafficByDevice />
+            <TurnsByCategory />
           </Grid>
         </Grid>
       </Container>

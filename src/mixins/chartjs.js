@@ -186,6 +186,4 @@ function draw() {
   }
 }
 
-Chart.helpers.extend(Chart.elements.Rectangle.prototype, {
-  draw
-});
+

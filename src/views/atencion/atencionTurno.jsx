@@ -18,7 +18,9 @@ import Check from '@material-ui/icons/Check';
 import VolumeUp from '@material-ui/icons/VolumeUp';
 import atencionService from "./service/atencionService";
 import { toast } from "react-toastify";
+import SockJsClient from 'react-stomp';
 
+const SOCKET_URL = 'http://localhost:8080/test-socket';
 export default class AtencionTurno extends Component {
     constructor(props) {
         super(props)
@@ -65,6 +67,10 @@ export default class AtencionTurno extends Component {
                     turnSelected:response.data,
                     turnDetailSelected:response.data.controlTurnoDetalleSet[0],
                     called:response.data.controlTurnoDetalleSet[0].noSolicitudes
+                })
+                this.sendMessage({
+                    consecutivo:response.data.noConsecutivo,
+                    estacion:JSON.parse(this.state.estacion).nombre
                 })
             }).catch(err=>{
                 if(err.response.data.status && err.response.data.status===404){
@@ -129,6 +135,7 @@ export default class AtencionTurno extends Component {
             this.setLoading(false)
             this.handleCancel()
             this.setState({turnSelected:null})
+            this.clientRef.sendMessage('/app/hello', JSON.stringify(response.data));
             toast.success('Turno finalizado con éxito')
         }).catch(err=>{
             toast.error('Error')
@@ -146,7 +153,11 @@ export default class AtencionTurno extends Component {
         .then(response=>{
             this.setState({
                 turnDetailSelected:response.data,
-                called:response.data.noSolicitudes
+                called:response.data.noSolicitudes,
+            })
+            this.sendMessage({
+                consecutivo:this.state.turnSelected.noConsecutivo,
+                estacion:JSON.parse(this.state.estacion).nombre
             })
             this.setLoading(false)
         }).catch(err=>{
@@ -177,6 +188,13 @@ export default class AtencionTurno extends Component {
         }).catch(err=>{
             this.props.destroyStationAttended()
         })
+    }
+
+    sendMessage = (msg) => {
+        console.log(msg)
+        this.clientRefTurn.sendMessage('/app/turn', JSON.stringify(msg));
+        this.clientRef.sendMessage('/app/hello', JSON.stringify(msg));
+       
     }
 
     render() {
@@ -247,6 +265,36 @@ export default class AtencionTurno extends Component {
                     </DialogActions>
                 </Dialog>
                 {this.state.isLoading&&<LinearProgress />}
+                <SockJsClient
+                    url={SOCKET_URL}
+                    topics={['/topic/greetings']}
+                    onMessage={(msg) => { console.log(msg)}}
+                    onConnect={console.log('Coneted to Socket')}
+                    ref={ (client) => { this.clientRef = client }}
+                    //headers={requestOptions}
+                    proxy= {{
+                            "/ws/**": {
+                            "target": "http://localhost:8080/test-socket",
+                            "changeOrigin": true
+                            }
+                        }}
+                        debug={ false }
+                />
+                <SockJsClient
+                    url={SOCKET_URL}
+                    topics={['/topic/greetings']}
+                    onMessage={(msg) => { console.log(msg)}}
+                    onConnect={console.log('Coneted to Socket')}
+                    ref={ (client) => { this.clientRefTurn = client }}
+                    //headers={requestOptions}
+                    proxy= {{
+                            "/ws/**": {
+                            "target": "http://localhost:8080/test-socket",
+                            "changeOrigin": true
+                            }
+                        }}
+                        debug={ false }
+                />
             </Container>
         )
     }

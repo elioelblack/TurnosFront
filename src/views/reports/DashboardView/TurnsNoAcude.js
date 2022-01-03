@@ -10,20 +10,20 @@ import {
   makeStyles,
   colors
 } from '@material-ui/core';
-import InsertChartIcon from '@material-ui/icons/InsertChartOutlined';
+import AssignmentIcon from '@material-ui/icons/Assignment';
 
 const useStyles = makeStyles(() => ({
   root: {
     height: '100%'
   },
   avatar: {
-    backgroundColor: colors.orange[600],
+    backgroundColor: colors.indigo[600],
     height: 56,
     width: 56
   }
 }));
 
-const TasksProgress = ({ className,data, ...rest }) => {
+const TotalProfit = ({ className,data, ...rest }) => {
   const classes = useStyles();
 
   return (
@@ -43,18 +43,18 @@ const TasksProgress = ({ className,data, ...rest }) => {
               gutterBottom
               variant="h6"
             >
-              NUEVOS USUARIOS LOS ÚLTIMOS 30 DÍAS
+              TURNOS QUE NO ACUDIERON
             </Typography>
             <Typography
               color="textPrimary"
               variant="h3"
             >
-              {(data!==null)?data.total_usuarios_last_month:0}
+              {(data!==null)?data.turno_no_acude:0}
             </Typography>
           </Grid>
           <Grid item>
             <Avatar className={classes.avatar}>
-              <InsertChartIcon />
+              <AssignmentIcon />
             </Avatar>
           </Grid>
         </Grid>
@@ -63,8 +63,8 @@ const TasksProgress = ({ className,data, ...rest }) => {
   );
 };
 
-TasksProgress.propTypes = {
+TotalProfit.propTypes = {
   className: PropTypes.string
 };
 
-export default TasksProgress;
+export default TotalProfit;

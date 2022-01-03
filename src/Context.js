@@ -48,7 +48,7 @@ const Provider = ({ children }) => {
       setStationAttended(null)
     }
   }
-  console.log(value.stationAttended)
+  //console.log(value.stationAttended)
   return (
     <ContextReact.Provider value={value}>
       {children}

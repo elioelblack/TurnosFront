@@ -18,6 +18,7 @@ import Services from './views/services';
 import ServiceView from './views/services/serviceView';
 import KioskoView from './views/kiosko/kioskoView';
 import AtencionView from './views/atencion';
+import TvView from './views/tv';
 
 AuthenticationService.setupAxiosInterceptors(
   AuthenticationService.createJWTToken(
@@ -63,7 +64,8 @@ const routes = [
       { path: '404', element: <NotFoundView /> },
       { path: '/', element: <LoginView /> },
       { path: '*', element: <Navigate to="/404" /> },
-      {path: '/kiosko', element: <KioskoView />}
+      {path: '/kiosko', element: <KioskoView />},
+      { path: '/tv', element: <TvView/> },
     ]
   }
 ];

@@ -10,20 +10,20 @@ import {
   makeStyles,
   colors
 } from '@material-ui/core';
-import AssignmentIcon from '@material-ui/icons/Assignment';
+import InsertChartIcon from '@material-ui/icons/InsertChartOutlined';
 
 const useStyles = makeStyles(() => ({
   root: {
     height: '100%'
   },
   avatar: {
-    backgroundColor: colors.indigo[600],
+    backgroundColor: colors.orange[600],
     height: 56,
     width: 56
   }
 }));
 
-const TotalProfit = ({ className,data, ...rest }) => {
+const TasksProgress = ({ className,data, ...rest }) => {
   const classes = useStyles();
 
   return (
@@ -35,7 +35,7 @@ const TotalProfit = ({ className,data, ...rest }) => {
         <Grid
           container
           justify="space-between"
-          spacing={3}
+          spacing={1}
         >
           <Grid item>
             <Typography
@@ -43,18 +43,18 @@ const TotalProfit = ({ className,data, ...rest }) => {
               gutterBottom
               variant="h6"
             >
-              TOTAL PREGUNTAS RESPONDIDAS
+              TURNOS RELLAMADOS HOY
             </Typography>
             <Typography
               color="textPrimary"
               variant="h3"
             >
-              {(data!==null)?data.preguntas_respondidas:0}
+              {(data!==null)?data.turnos_con_rellamados_hoy:0}
             </Typography>
           </Grid>
           <Grid item>
             <Avatar className={classes.avatar}>
-              <AssignmentIcon />
+              <InsertChartIcon />
             </Avatar>
           </Grid>
         </Grid>
@@ -63,8 +63,8 @@ const TotalProfit = ({ className,data, ...rest }) => {
   );
 };
 
-TotalProfit.propTypes = {
+TasksProgress.propTypes = {
   className: PropTypes.string
 };
 
-export default TotalProfit;
+export default TasksProgress;

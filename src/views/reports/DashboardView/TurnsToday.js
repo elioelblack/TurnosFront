@@ -10,27 +10,27 @@ import {
   colors,
   makeStyles
 } from '@material-ui/core';
-import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
+import PeopleIcon from '@material-ui/icons/PeopleOutlined';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     height: '100%'
   },
   avatar: {
-    backgroundColor: colors.red[600],
+    backgroundColor: colors.green[600],
     height: 56,
     width: 56
   },
   differenceIcon: {
-    color: colors.red[900]
+    color: colors.green[900]
   },
   differenceValue: {
-    color: colors.red[900],
+    color: colors.green[900],
     marginRight: theme.spacing(1)
   }
 }));
 
-const Budget = ({ className,data, ...rest }) => {
+const TotalCustomers = ({ className,data, ...rest }) => {
   const classes = useStyles();
 
   return (
@@ -42,7 +42,7 @@ const Budget = ({ className,data, ...rest }) => {
         <Grid
           container
           justify="space-between"
-          spacing={3}
+          spacing={1}
         >
           <Grid item>
             <Typography
@@ -50,18 +50,18 @@ const Budget = ({ className,data, ...rest }) => {
               gutterBottom
               variant="h6"
             >
-              TOTAL ENCUESTAS ÚLTIMOS 30 DÍAS
+              TURNOS ATENDIDOS HOY
             </Typography>
             <Typography
               color="textPrimary"
               variant="h3"
             >
-              {(data!==null)?data.total_encuestas_last_month:0}
+              {(data!==null)?data.turnos_today:0}
             </Typography>
           </Grid>
           <Grid item>
             <Avatar className={classes.avatar}>
-              <AssignmentIndIcon />
+              <PeopleIcon />
             </Avatar>
           </Grid>
         </Grid>
@@ -70,8 +70,8 @@ const Budget = ({ className,data, ...rest }) => {
   );
 };
 
-Budget.propTypes = {
+TotalCustomers.propTypes = {
   className: PropTypes.string
 };
 
-export default Budget;
+export default TotalCustomers;
