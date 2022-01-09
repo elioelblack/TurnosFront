@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core';
+import { Icon, makeStyles } from '@material-ui/core';
 import NavBar from './NavBar';
 import TopBar from './TopBar';
 import AuthenticationService from 'src/service/AuthenticationService';
@@ -11,6 +11,7 @@ import {
   User as UserIcon,
   LogOut as LogOutIcon
 } from 'react-feather';
+import { toast } from 'react-toastify';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -45,47 +46,58 @@ const DashboardLayout = () => {
   const classes = useStyles();
   const [isMobileNavOpen, setMobileNavOpen] = useState(false);
   const [userDetail, setUserDetail] = useState(null);
+  const [items, setItems] = useState([]);
+  const [itemsMenu, setItemsMenu] = useState([])
 
-  useEffect(()=>{
-    function loadUserDetails(){
+  useEffect(() => {
+    function loadUserDetails() {
       AuthenticationService.whoami()
-      .then(response=>{
-        //console.log(response.data)
-        setUserDetail(response.data)
-      }).catch(err=>{
-        console.error(err)
-      })
+        .then(response => {
+          //console.log(response.data)
+          setUserDetail(response.data)
+        }).catch(err => {
+          console.error(err)
+        })
+    }
+
+    const loadMenuListByRol = () => {
+      AuthenticationService.loadMenuListByRol()
+        .then(response => {
+          console.log(response.data)
+          setItems(makeMenus(response.data))
+        }).catch(err => {
+          toast.error('Error al cargar menus de usuario')
+        })
     }
     loadUserDetails();
-  },[]);
+    loadMenuListByRol();
+  }, []);
 
-  const items = [
-    {
-      href: '/app/dashboard',
-      icon: BarChartIcon,
-      title: 'Dashboard'
-    },
-    {
-      href: '/app/atencion',
-      icon: ShoppingBagIcon,
-      title: 'Atender turno'
-    },
-    /*{
-      href: '/login',
-      icon: LockIcon,
-      title: 'Login'
-    },
-    {
-      href: '/register',
-      icon: UserPlusIcon,
-      title: 'Register'
-    },
-    {
-      href: '/404',
-      icon: AlertCircleIcon,
-      title: 'Error'
-    }*/
-  ];
+  const makeMenus = (data) => {
+    let listaMenus = []
+    data.map(
+      m => {
+        return (
+          listaMenus.push(
+            {
+              href: m.idMenu.url,
+              icon: (m.idMenu.iconoMenu !== null && m.idMenu.iconoMenu !== '') && <Icon >{m.idMenu.iconoCategoria}</Icon>,
+              title: m.idMenu.nombre
+            }
+          )
+        )
+      }
+    )
+    //Agrega de ultimo el menu de Salir
+    listaMenus.push(
+      {
+        href: '/app/logout',
+        icon: LogOutIcon,
+        title: 'Salir'
+      },
+    )
+    return listaMenus;
+  }
 
   if ((userDetail != null && userDetail.idRol.idRol === Constante.ID_ROL_ADMIN)) {
     items.push(
@@ -111,21 +123,14 @@ const DashboardLayout = () => {
       })
   }
 
-  //Agrega de ultimo el menu de Salir
-  items.push(
-    {
-      href: '/app/logout',
-      icon: LogOutIcon,
-      title: 'Salir'
-    },
-  )
+
 
   //Variable de info del usuario
   const user = {
     avatar: '/static/images/avatars/default-avatar.png',
-    jobTitle: (userDetail!=null)?userDetail.username+' ('+userDetail.idRol.nombre+') ':'loading',
-    name: (userDetail!=null)?userDetail.primerNombre+" "+userDetail.primerApellido:'loading',
-    id_user: (userDetail!=null)?userDetail.idUsuario:0
+    jobTitle: (userDetail != null) ? userDetail.username + ' (' + userDetail.idRol.nombre + ') ' : 'loading',
+    name: (userDetail != null) ? userDetail.primerNombre + " " + userDetail.primerApellido : 'loading',
+    id_user: (userDetail != null) ? userDetail.idUsuario : 0
   };
 
 

@@ -82,6 +82,10 @@ class AuthenticationService {
     whoami(){
         return axios.get(`${API_URL}/admin/user/whoami`);
     }
+
+    loadMenuListByRol(){
+        return axios.get(`${API_URL}/admin/menurol/rol`);
+    }
 }
 export default new AuthenticationService();
 export const whoami = async () => {
