@@ -33,7 +33,6 @@ const useStyles = makeStyles(() => ({
 const NavBar = ({ onMobileClose, openMobile, items, user }) => {
   const classes = useStyles();
   const location = useLocation();
-
   useEffect(() => {
     if (openMobile && onMobileClose) {
       onMobileClose();
@@ -57,7 +56,7 @@ const NavBar = ({ onMobileClose, openMobile, items, user }) => {
           className={classes.avatar}
           component={RouterLink}
           src={user.avatar}
-          to={"/app/usuario?action=view&id="+user.id_user}
+          to={"/app/usuario?action=view&id=" + user.id_user}
         />
         <Typography
           className={classes.name}
@@ -76,18 +75,19 @@ const NavBar = ({ onMobileClose, openMobile, items, user }) => {
       <Divider />
       <Box p={2}>
         <List>
-          {items.map((item) => (
+          {items.map((item) => {
+            return (
             <NavItem
               href={item.href}
               key={item.title}
               title={item.title}
               icon={item.icon}
-            />
-          ))}
+            />)
+          })}
         </List>
       </Box>
       <Box flexGrow={1} />
-      
+
     </Box>
   );
 
@@ -124,7 +124,7 @@ NavBar.propTypes = {
 };
 
 NavBar.defaultProps = {
-  onMobileClose: () => {},
+  onMobileClose: () => { },
   openMobile: false
 };
 

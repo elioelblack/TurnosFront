@@ -1,16 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
-import { Icon, makeStyles } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 import NavBar from './NavBar';
 import TopBar from './TopBar';
 import AuthenticationService from 'src/service/AuthenticationService';
-import Constante from 'src/js/Constante';
-import {
-  BarChart as BarChartIcon,
-  ShoppingBag as ShoppingBagIcon,
-  User as UserIcon,
-  LogOut as LogOutIcon
-} from 'react-feather';
+
 import { toast } from 'react-toastify';
 
 const useStyles = makeStyles((theme) => ({
@@ -47,7 +41,6 @@ const DashboardLayout = () => {
   const [isMobileNavOpen, setMobileNavOpen] = useState(false);
   const [userDetail, setUserDetail] = useState(null);
   const [items, setItems] = useState([]);
-  const [itemsMenu, setItemsMenu] = useState([])
 
   useEffect(() => {
     function loadUserDetails() {
@@ -63,10 +56,11 @@ const DashboardLayout = () => {
     const loadMenuListByRol = () => {
       AuthenticationService.loadMenuListByRol()
         .then(response => {
-          console.log(response.data)
+          //console.log(response.data)
           setItems(makeMenus(response.data))
         }).catch(err => {
           toast.error('Error al cargar menus de usuario')
+          makeMenus([])
         })
     }
     loadUserDetails();
@@ -74,56 +68,34 @@ const DashboardLayout = () => {
   }, []);
 
   const makeMenus = (data) => {
-    let listaMenus = []
-    data.map(
-      m => {
-        return (
-          listaMenus.push(
-            {
-              href: m.idMenu.url,
-              icon: (m.idMenu.iconoMenu !== null && m.idMenu.iconoMenu !== '') && <Icon >{m.idMenu.iconoCategoria}</Icon>,
-              title: m.idMenu.nombre
-            }
+    try {
+      let listaMenus = []
+      data.map(
+        m => {
+          return (
+            listaMenus.push(
+              {
+                href: m.idMenu.url,
+                icon: (m.idMenu.iconoMenu !== null && m.idMenu.iconoMenu !== '') ? m.idMenu.iconoMenu : '',
+                title: m.idMenu.nombre
+              }
+            )
           )
-        )
-      }
-    )
-    //Agrega de ultimo el menu de Salir
-    listaMenus.push(
-      {
-        href: '/app/logout',
-        icon: LogOutIcon,
-        title: 'Salir'
-      },
-    )
-    return listaMenus;
+        }
+      )
+      //Agrega de ultimo el menu de Salir
+      listaMenus.push(
+        {
+          href: '/app/logout',
+          icon: 'logout',
+          title: 'Salir'
+        },
+      )
+      return listaMenus;
+    } catch (err) {
+      return []
+    }
   }
-
-  if ((userDetail != null && userDetail.idRol.idRol === Constante.ID_ROL_ADMIN)) {
-    items.push(
-      {
-        href: '/app/users',
-        icon: UserIcon,
-        title: 'Usuarios'
-      },
-      {
-        href: '/app/stations',
-        icon: UserIcon,
-        title: 'Estaciones'
-      },
-      {
-        href: '/app/categories',
-        icon: UserIcon,
-        title: 'Categorías de servicios'
-      },
-      {
-        href: '/app/services',
-        icon: UserIcon,
-        title: 'Servicios'
-      })
-  }
-
-
 
   //Variable de info del usuario
   const user = {

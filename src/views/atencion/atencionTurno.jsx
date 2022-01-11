@@ -269,7 +269,6 @@ export default class AtencionTurno extends Component {
                     url={SOCKET_URL}
                     topics={['/topic/greetings']}
                     onMessage={(msg) => { console.log(msg)}}
-                    onConnect={console.log('Coneted to Socket')}
                     ref={ (client) => { this.clientRef = client }}
                     //headers={requestOptions}
                     proxy= {{
@@ -284,7 +283,6 @@ export default class AtencionTurno extends Component {
                     url={SOCKET_URL}
                     topics={['/topic/greetings']}
                     onMessage={(msg) => { console.log(msg)}}
-                    onConnect={console.log('Coneted to Socket')}
                     ref={ (client) => { this.clientRefTurn = client }}
                     //headers={requestOptions}
                     proxy= {{

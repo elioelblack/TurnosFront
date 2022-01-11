@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import { NavLink as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
@@ -7,6 +7,8 @@ import {
   ListItem,
   makeStyles
 } from '@material-ui/core';
+import { loadCSS } from 'fg-loadcss';
+import Icon from '@mui/material/Icon';
 
 const useStyles = makeStyles((theme) => ({
   item: {
@@ -43,12 +45,22 @@ const useStyles = makeStyles((theme) => ({
 const NavItem = ({
   className,
   href,
-  icon: Icon,
+  icon,
   title,
   ...rest
 }) => {
   const classes = useStyles();
+  useEffect(()=>{
+    const node = loadCSS(
+      'https://use.fontawesome.com/releases/v5.14.0/css/all.css',
+      // Inject before JSS
+      document.querySelector('#font-awesome-css') || document.head.firstChild,
+    );
 
+    return () => {
+      node.parentNode.removeChild(node);
+    };
+  },[])
   return (
     <ListItem
       className={clsx(classes.item, className)}
@@ -60,13 +72,8 @@ const NavItem = ({
         className={classes.button}
         component={RouterLink}
         to={href}
+        startIcon={(icon!==null&&icon!=='')?<Icon size="20">{icon}</Icon>:''}
       >
-        {Icon && (
-          <Icon
-            className={classes.icon}
-            size="20"
-          />
-        )}
         <span className={classes.title}>
           {title}
         </span>

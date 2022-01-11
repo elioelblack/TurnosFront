@@ -22,7 +22,7 @@ const Results = ({ className, data, ...rest }) => {
   const classes = useStyles();
   const columns = [
     { field: 'id', headerName: 'Id', minWidth: 100},
-    { field: 'nombre', headerName: 'Nombre de categoría', minWidth: 300,flex: 1 },
+    { field: 'nombre', headerName: 'Nombre del servicio', minWidth: 300,flex: 1 },
     { field: 'activo', headerName: 'Estado', minWidth: 200,disableClickEventBubbling: true,
       renderCell:(params)=>(
         params.value?<span style={{color:'blue'}}>Activo</span>:<span style={{color:'red'}}>Inactivo</span>
