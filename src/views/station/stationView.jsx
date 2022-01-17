@@ -45,7 +45,16 @@ class StationView extends Component {
             this.loadStationById(idParam)
             this.setState({ id: idParam })
         }
+        this.loadAllSites()
+    }
 
+    loadAllSites() {
+        stationService.findAllSites()
+            .then(response => {
+                this.setState({sucursales:response.data})
+            }).catch(err => {
+                toast.error('Error al cargar sucursales')
+            })
     }
 
     loadStationById(id) {
@@ -224,10 +233,10 @@ class StationView extends Component {
                                             >
                                                 {this.state.sucursales.map((option) => (
                                                     <option
-                                                        key={option.value}
-                                                        value={option.value}
+                                                        key={option.idSucursal}
+                                                        value={option.idSucursal}
                                                     >
-                                                        {option.label}
+                                                        {option.nombre}
                                                     </option>
                                                 ))}
                                             </TextField>

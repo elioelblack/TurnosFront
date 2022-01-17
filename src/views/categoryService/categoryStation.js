@@ -46,8 +46,8 @@ const CategoryStation = ({ data }) => {
             })
     }
 
-    function loadAllStationsBySite(idSite) {
-        categoryService.findStationBySite(idSite)
+    function loadAllStationsBySite(idSite,idCateg) {
+        categoryService.findStationBySite(idSite,idCateg)
             .then(response => {
                 setRows(response.data)
 
@@ -61,7 +61,7 @@ const CategoryStation = ({ data }) => {
             .then(response => {
                 setSucursales(response.data)
                 setIdSucursal(1)
-                loadAllStationsBySite(1)
+                loadAllStationsBySite(1,id)
             }).catch(err => {
                 toast.error('Error al cargar sucursales')
             })
@@ -72,11 +72,11 @@ const CategoryStation = ({ data }) => {
         setIdStation(e.target.value)
     }
 
-    function handleChangeSucursal(e, id) {
+    function handleChangeSucursal(e, idData) {
         let idPk = e.target.value
         setIdSucursal(idPk)
         if(idPk!==''){
-            loadAllStationsBySite(idPk)
+            loadAllStationsBySite(idPk,id)
         }else{
             setRows([])
         }
@@ -101,8 +101,7 @@ const CategoryStation = ({ data }) => {
         categoryService.saveCategoriaEstacion(data)
             .then(response => {
                 toast.success('Guardado correctamente')
-                delete rows[rows.findIndex(e => e.idEstacion === idStation)]
-                setRows(rows)
+                loadAllStationsBySite(idSucursal,id)
                 setIdStation('')
                 loadStationsbyCategory(id)
             }).catch(err => {

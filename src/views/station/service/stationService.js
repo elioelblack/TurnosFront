@@ -28,6 +28,10 @@ class stationService {
     whoami(){
         return axios.get(`${API_URL}/admin/station/whoami`);
     }
+
+    findAllSites() {
+        return axios.get(`${API_URL}/admin/sucursal/all`);
+    }
 }
 
 export const findByDui = async (dui) => {

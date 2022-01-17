@@ -37,8 +37,8 @@ class stationService {
         return axios.get(`${API_URL}/admin/sucursal/all`);
     }
 
-    findStationBySite(id){
-        return axios.get(`${API_URL}/admin/station/site/${id}`);
+    findStationBySite(id,idCateg){
+        return axios.get(`${API_URL}/admin/station/site/${id}/${idCateg}`);
     }
 
     findcategoriasPorEstacionesByIdCategoria(idCategoria){
