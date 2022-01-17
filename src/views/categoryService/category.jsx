@@ -21,7 +21,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import LinearProgress from '@mui/material/LinearProgress';
 import InputMask from 'react-input-mask';
-import MultipleSelectChip from "./MultipleSelectChip";
+import CategoryStation from "./categoryStation";
 
 const action = solReact.getQueryVariable("action")
 
@@ -32,13 +32,14 @@ export default class Category extends Component {
             nombre: '',
             descripcion: '',
             activo: true,
-            prefijo:'',
-            prioridad:1,
-            icono:'',
-            isLoading:false,
-            rangoPrioridad: [1,2,3,4,5,6,7,8,9,10],
-            estaciones:[],
-            estacionesSeleted:[]
+            prefijo: '',
+            prioridad: 1,
+            icono: '',
+            isLoading: false,
+            rangoPrioridad: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+            estaciones: [],
+            estacionesSeleted: [],
+            categoriaUpdate:null
         }
     }
 
@@ -52,23 +53,24 @@ export default class Category extends Component {
         this.loadAllStation()
     }
 
-    handleChangeMulti=(value)=>{
-        this.setState({estacionesSeleted:value})
+    handleChangeMulti = (value) => {
+        this.setState({ estacionesSeleted: value })
     }
 
-    loadCategoriasPorEstaciones(idCategoria){
+    loadCategoriasPorEstaciones(idCategoria) {
         categoryService.findcategoriasPorEstacionesByIdCategoria(idCategoria)
-        .then(response=>{
-            let data = response.data
-            let dataFormated = []
-            data.map(e=>{ return (
-                dataFormated.push(e.idEstacion.nombre)
-                )
+            .then(response => {
+                let data = response.data
+                let dataFormated = []
+                data.map(e => {
+                    return (
+                        dataFormated.push(e.idEstacion.nombre)
+                    )
+                })
+                this.setState({ estacionesSeleted: dataFormated })
+            }).catch(err => {
+                toast.error('Error al cargar estaciones de atencion')
             })
-            this.setState({estacionesSeleted:dataFormated})
-        }).catch(err=>{
-            toast.error('Error al cargar estaciones de atencion')
-        })
     }
 
     loadById(id) {
@@ -77,24 +79,27 @@ export default class Category extends Component {
                 let a = response.data
                 this.setState({
                     nombre: a.nombre,
-                    descripcion: a.descripcion!=null?a.descripcion:'',
+                    descripcion: a.descripcion != null ? a.descripcion : '',
                     activo: a.activo,
-                    prefijo:a.prefijoTurno!=null?a.prefijoTurno:'',
-                    prioridad:a.prioridad,
-                    icono:a.iconoCategoria
+                    prefijo: a.prefijoTurno != null ? a.prefijoTurno : '',
+                    prioridad: a.prioridad,
+                    icono: a.iconoCategoria
+                })
+                this.setState({
+                    categoriaUpdate:a
                 })
             }).catch(err => {
                 console.error(err)
             })
     }
 
-    loadAllStation(){
+    loadAllStation() {
         categoryService.findAllStations()
-        .then(response=>{
-            this.setState({estaciones:response.data})
-        }).catch(err=>{
-            toast.error('Error al cargar estaciones de atención')
-        })
+            .then(response => {
+                this.setState({ estaciones: response.data })
+            }).catch(err => {
+                toast.error('Error al cargar estaciones de atención')
+            })
     }
 
     handleChange(e) {
@@ -130,9 +135,9 @@ export default class Category extends Component {
             toast.warn('Nombre de la categoría es requerido')
             this.setState({ e_nombre: true })
             this.setState({ isLoading: false })
-        }else if(this.state.prioridad===''){
+        } else if (this.state.prioridad === '') {
             toast.warn('Prioridad es requerido')
-            this.setState({e_prioridad:true})
+            this.setState({ e_prioridad: true })
             this.setState({ isLoading: false })
         } else {
             let obj = {
@@ -291,13 +296,6 @@ export default class Category extends Component {
                                                 />
                                             </Tooltip>
                                         </Grid>
-                                        <Grid
-                                            item
-                                            md={3}
-                                            xs={12}
-                                        >
-                                            <MultipleSelectChip data={this.state.estaciones} handleChangeMulti={this.handleChangeMulti} value={this.state.estacionesSeleted}/>
-                                        </Grid>
                                     </Grid>
                                 </CardContent>
                                 <Divider />
@@ -326,6 +324,30 @@ export default class Category extends Component {
                                     </Box> : <LinearProgress />}
                             </Card>
                         </form>
+                    </Box>
+
+                    <Box mt={3}>
+                        <Card>
+                            <CardHeader
+                                title="Estaciones que pueden atender esta categoría"
+                                subheader="Solo las estaciones permitidas en esta lista pueden atender esta categoría"
+                            />
+                            <Divider />
+                            <CardContent>
+                                <Grid
+                                    container
+                                    spacing={3}
+                                >
+                                    <Grid
+                                        item
+                                        md={6}
+                                        xs={12}
+                                    >
+                                        <CategoryStation data={this.state.categoriaUpdate} />
+                                    </Grid>
+                                </Grid>
+                            </CardContent>
+                        </Card>
                     </Box>
                 </Container>
             </Page>

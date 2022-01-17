@@ -33,8 +33,24 @@ class stationService {
         return axios.get(`${API_URL}/admin/station/`);
     }
 
+    findAllSites() {
+        return axios.get(`${API_URL}/admin/sucursal/all`);
+    }
+
+    findStationBySite(id){
+        return axios.get(`${API_URL}/admin/station/site/${id}`);
+    }
+
     findcategoriasPorEstacionesByIdCategoria(idCategoria){
         return axios.get(`${API_URL}/admin/categ/categorias_estaciones/${idCategoria}`);
+    }
+
+    saveCategoriaEstacion(data){
+        return axios.post(`${API_URL}/admin/catest`,data);
+    }
+
+    delete(id){
+        return axios.delete(`${API_URL}/admin/catest/${id}`);
     }
 }
 

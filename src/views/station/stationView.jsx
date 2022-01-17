@@ -31,8 +31,7 @@ class StationView extends Component {
             descripcion: '',
             activo: true,
             sucursales: [
-                { value: 1, label: 'Central' },
-                { value: 2, label: 'Santa Tecla' }
+                { value: 1, label: 'Central' }
             ],
             id_sucursal: 1,
             ocupado: false,
