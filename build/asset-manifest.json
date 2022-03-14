@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.js": "/turnos/static/js/main.7fa9e721.chunk.js",
+    "main.js.map": "/turnos/static/js/main.7fa9e721.chunk.js.map",
+    "runtime-main.js": "/turnos/static/js/runtime-main.d9736de4.js",
+    "runtime-main.js.map": "/turnos/static/js/runtime-main.d9736de4.js.map",
+    "static/css/2.5136df82.chunk.css": "/turnos/static/css/2.5136df82.chunk.css",
+    "static/js/2.eb3824a9.chunk.js": "/turnos/static/js/2.eb3824a9.chunk.js",
+    "static/js/2.eb3824a9.chunk.js.map": "/turnos/static/js/2.eb3824a9.chunk.js.map",
+    "index.html": "/turnos/index.html",
+    "static/css/2.5136df82.chunk.css.map": "/turnos/static/css/2.5136df82.chunk.css.map",
+    "static/js/2.eb3824a9.chunk.js.LICENSE.txt": "/turnos/static/js/2.eb3824a9.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.d9736de4.js",
+    "static/css/2.5136df82.chunk.css",
+    "static/js/2.eb3824a9.chunk.js",
+    "static/js/main.7fa9e721.chunk.js"
+  ]
+}

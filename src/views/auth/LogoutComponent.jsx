@@ -4,7 +4,7 @@ import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 class LogoutComponent extends Component {
     componentDidMount(){
         AuthenticationService.logout()
-        window.location = "/login"
+        window.location = "/turnos/login"
     }
     render() {
         return (

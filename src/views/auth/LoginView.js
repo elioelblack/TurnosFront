@@ -68,7 +68,7 @@ const LoginView = () => {
                 .executeJwtAuthenticationService(values.username, values.password)
                 .then((response) => {
                     activateAuth(response)
-                    window.location = "/app/dashboard" //Ruta para obligar a refrescar y cargar de nuevo las rutas
+                    window.location = "/turnos/app/dashboard" //Ruta para obligar a refrescar y cargar de nuevo las rutas
                     isSubmitting = false;
                 }).catch((err) => {
                     //console.log(err.response.data.message)

@@ -5,12 +5,16 @@ const API_URL = AuthenticationService.getApiUrl();
 
 class KioskoService {
 
-    findAllCategories() {
-        return axios.get(`${API_URL}/kiosko/categories`);
+    findAllCategories(sucursal) {
+        return axios.get(`${API_URL}/kiosko/categories?sucursal=${sucursal}`);
     }
 
     findByIdCategories(id) {
         return axios.get(`${API_URL}/kiosko/servicioscateg?id=${id}`);
+    }
+
+    loadSucursalInfo(sucursal){
+        return axios.get(`${API_URL}/kiosko/sucursal/${sucursal}`);
     }
 
     save(data) {

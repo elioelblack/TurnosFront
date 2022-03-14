@@ -15,6 +15,7 @@ import SockJsClient from 'react-stomp';
 import tvService from "./service/tvService";
 import { toast } from "react-toastify";
 
+//const SOCKET_URL = 'http://74.208.187.67:8080/Turnos/test-socket';
 const SOCKET_URL = 'http://localhost:8080/test-socket';
 export default class TvView extends Component {
     constructor(props) {
@@ -28,7 +29,9 @@ export default class TvView extends Component {
     }
 
     componentDidMount() {
-        if (!'speechSynthesis' in window) return alert("Lo siento, tu navegador no soporta esta tecnología");
+        if (!('speechSynthesis' in window)) {
+            alert("Lo siento, tu navegador no soporta esta tecnología");
+        }
         this.loadturnToShow()
     }
 
@@ -144,8 +147,8 @@ export default class TvView extends Component {
                                             <Results data={this.state.message} />
                                         </Grid>
                                         <Grid item xs={6} md={6}>
-                                            <video controls autoPlay loop width="100%">
-                                                <source src={process.env.PUBLIC_URL + 'assets/video/mov_bbb.mp4'} type="video/mp4" />
+                                            <video controls autoPlay loop width="100%" muted>
+                                                <source src={process.env.PUBLIC_URL + '/assets/video/mov_bbb.mp4'} type="video/mp4" />
                                                 <p>Su navegador no soporta video HTML5. Aquí hay un <a href="rabbit320.mp4">enlace al video</a>.</p>
                                             </video>
                                         </Grid>
@@ -171,7 +174,7 @@ export default class TvView extends Component {
                                 //headers={requestOptions}
                                 proxy={{
                                     "/ws/**": {
-                                        "target": "http://localhost:8080/test-socket",
+                                        "target": "http://74.208.187.67:8080/Turnos/test-socket",
                                         "changeOrigin": true
                                     }
                                 }}
@@ -185,7 +188,7 @@ export default class TvView extends Component {
                                 //headers={requestOptions}
                                 proxy={{
                                     "/ws/**": {
-                                        "target": "http://localhost:8080/test-socket",
+                                        "target": "http://74.208.187.67:8080/Turnos/test-socket",
                                         "changeOrigin": true
                                     }
                                 }}

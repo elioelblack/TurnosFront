@@ -71,7 +71,7 @@ const NavItem = ({
         activeClassName={classes.active}
         className={classes.button}
         component={RouterLink}
-        to={href}
+        to={'/turnos'+href}
         startIcon={(icon!==null&&icon!=='')?<Icon size="20">{icon}</Icon>:''}
       >
         <span className={classes.title}>

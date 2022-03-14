@@ -38,32 +38,32 @@ const isUserLogin = () => {
 
 const routes = [
   {
-    path: 'app',
+    path: 'turnos/app/',
     element: <DashboardLayout />,
     children: [
-      { path: 'users', element: isUserLogin()?<AccountView />:<Navigate to="/login" /> },
-      { path: 'dashboard', element: isUserLogin()?<DashboardView />:<Navigate to="/login" /> },
-      { path: 'usuario', element: isUserLogin()?<Usuario2 />:<Navigate to="/login" /> },
-      { path: 'stations', element: isUserLogin()?<Stations />:<Navigate to="/login" /> },
-      { path: 'station', element: isUserLogin()?<StationView/>:<Navigate to="/login" /> },
-      { path: 'categories', element: isUserLogin()?<Categories/>:<Navigate to="/login" /> },
-      { path: 'category', element: isUserLogin()?<Category/>:<Navigate to="/login" /> },
-      { path: 'services', element: isUserLogin()?<Services/>:<Navigate to="/login" /> },
-      { path: 'service', element: isUserLogin()?<ServiceView/>:<Navigate to="/login" /> },
-      { path: 'atencion', element: isUserLogin()?<AtencionView/>:<Navigate to="/login" /> },
+      { path: 'users', element: isUserLogin()?<AccountView />:<Navigate to="/turnos/login" /> },
+      { path: 'dashboard', element: isUserLogin()?<DashboardView />:<Navigate to="/turnos/login" /> },
+      { path: 'usuario', element: isUserLogin()?<Usuario2 />:<Navigate to="/turnos/login" /> },
+      { path: 'stations', element: isUserLogin()?<Stations />:<Navigate to="/turnos/login" /> },
+      { path: 'station', element: isUserLogin()?<StationView/>:<Navigate to="/turnos/login" /> },
+      { path: 'categories', element: isUserLogin()?<Categories/>:<Navigate to="/turnos/login" /> },
+      { path: 'category', element: isUserLogin()?<Category/>:<Navigate to="/turnos/login" /> },
+      { path: 'services', element: isUserLogin()?<Services/>:<Navigate to="/turnos/login" /> },
+      { path: 'service', element: isUserLogin()?<ServiceView/>:<Navigate to="/turnos/login" /> },
+      { path: 'atencion', element: isUserLogin()?<AtencionView/>:<Navigate to="/turnos/login" /> },
       { path: '/logout', element: <LogoutComponent /> },
-      { path: '*', element: <Navigate to="/404" /> }
+      { path: '*', element: <Navigate to="/turnos/404" /> }
     ]
   },
   {
-    path: '/',
+    path: 'turnos/',
     element: <MainLayout />,
     children: [
       { path: 'login', element: <LoginView /> },
       { path: 'register', element: <RegisterView /> },
       { path: '404', element: <NotFoundView /> },
       { path: '/', element: <LoginView /> },
-      { path: '*', element: <Navigate to="/404" /> },
+      { path: '*', element: <Navigate to="/turnos/404" /> },
       {path: '/kiosko', element: <KioskoView />},
       { path: '/tv', element: <TvView/> },
     ]

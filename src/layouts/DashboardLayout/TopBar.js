@@ -36,12 +36,12 @@ const TopBar = ({
       {...rest}
     >
       <Toolbar>
-        <RouterLink to="/app/dashboard">
+        <RouterLink to="/turnos/app/dashboard">
           <Logo />
         </RouterLink>
         <Box flexGrow={1} />
         <Hidden mdDown>
-        <RouterLink to="/app/logout" style={{textDecoration:'none',color:'white'}}>
+        <RouterLink to="/turnos/app/logout" style={{textDecoration:'none',color:'white'}}>
           <IconButton color="inherit" >
             <InputIcon />
           </IconButton>

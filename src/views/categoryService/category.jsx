@@ -161,7 +161,7 @@ export default class Category extends Component {
             .then(response => {
                 toast.success('Guardado correctamente')
                 setTimeout(() => {
-                    window.location = '/app/categories'
+                    window.location = '/turnos/app/categories'
                 }, 1000);
             }).catch(err => {
                 toast.error(err)
@@ -316,7 +316,7 @@ export default class Category extends Component {
                                             color="primary"
                                             variant="contained"
                                             style={{ marginLeft: 5 }}
-                                            onClick={(e) => { window.location = "/app/categories" }}
+                                            onClick={(e) => { window.location = "/turnos/app/categories" }}
                                         >
                                             Regresar
                                         </Button>

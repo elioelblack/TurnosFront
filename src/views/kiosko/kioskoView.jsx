@@ -11,7 +11,7 @@ import { toast } from "react-toastify";
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Icon from '@mui/material/Icon';
-import { CardActionArea } from '@mui/material';
+import { Alert, AlertTitle, CardActionArea, Stack } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import Dialog from '@mui/material/Dialog';
 import IconButton from '@mui/material/IconButton';
@@ -26,6 +26,9 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import { ComponentToPrint } from "./genericTicket";
 import ReactToPrint from 'react-to-print';
+import solReact from "src/js/solReact";
+
+const sucursal = solReact.getQueryVariable("sucursal")
 class KioskoView extends Component {
     constructor(props) {
         super(props)
@@ -34,20 +37,44 @@ class KioskoView extends Component {
             arrayCategories: [],
             open:false,
             arrayServices:[],
-            turnoSeleted:{}
+            turnoSeleted:{},
+            isError:false,
+            msjError:'',
+            sucursal:{}
         }
     }
 
     componentDidMount() {
-        this.getAllCategories()
+        console.log(sucursal)
+        if(sucursal!==undefined && sucursal!==null){
+            this.getAllCategories(sucursal)
+            this.getSucursalInfo(sucursal)
+        }else{
+            toast.error('Sucursal no seleccionada')
+        }
     }
 
-    getAllCategories() {
-        kioskoService.findAllCategories()
+    getSucursalInfo(sucursal){
+        kioskoService.loadSucursalInfo(sucursal)
+        .then(response=>{
+            this.setState({
+                sucursal:response.data
+            })
+        }).catch(err=>{
+            toast.error('Error al cargar información de sucursal')
+        })
+    }
+
+    getAllCategories(sucursal) {
+        kioskoService.findAllCategories(sucursal)
             .then(response => {
                 this.setState({ arrayCategories: response.data })
             }).catch(err => {
-                toast.error('error al cargar categorìas')
+                toast.error('error al cargar categorìas');
+                this.setState({
+                    isError:true,
+                    msjError:String(JSON.stringify(err.response)),
+                })
             })
     }
 
@@ -137,7 +164,8 @@ class KioskoView extends Component {
     save(idCateg,idServicio){
         let data = {
             idCategoriaTurnos : {idCategoriaTurnos:idCateg},
-            controlTurnoDetalleSet:[{}]
+            controlTurnoDetalleSet:[{}],
+            idSucursal:this.state.sucursal
         }
         if(idServicio!==null){
             data.idServiciosCategoria = {idServicioCategoria:idServicio}
@@ -176,6 +204,16 @@ class KioskoView extends Component {
                 className={classes.root}
                 title="Kiosko QueueApp"
             >
+                {this.state.isError &&
+                <Stack sx={{ width: '100%' }} spacing={2}>
+                    <Alert severity="error">
+                        <AlertTitle>Error - Consulte al soporte técnio</AlertTitle>
+                        <p>{this.state.msjError}</p>
+                    </Alert>
+                </Stack>}
+                <Typography style={{textAlign:'center',margin:5}} variant="h1" component="div" gutterBottom>
+                    Bienvenido a "Tu empresa" - ({this.state.sucursal.nombre})
+                </Typography>
                 <Box
                     display="flex"
                     flexDirection="column"

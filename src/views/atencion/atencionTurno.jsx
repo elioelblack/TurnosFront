@@ -20,6 +20,7 @@ import atencionService from "./service/atencionService";
 import { toast } from "react-toastify";
 import SockJsClient from 'react-stomp';
 
+//const SOCKET_URL = 'http://74.208.187.67:8080/Turnos/test-socket';
 const SOCKET_URL = 'http://localhost:8080/test-socket';
 export default class AtencionTurno extends Component {
     constructor(props) {

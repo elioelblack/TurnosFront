@@ -228,11 +228,10 @@ class solReact {//Soluciones en ReactJS
         var base64Url = token.split('.')[1];
         var base64 = base64Url.replace('-', '+').replace('_', '/');
         //var date = new Date(1572575093*1000);//Convertir fecha unix a fecha normal javascript
-        
         return JSON.parse(window.atob(base64));
     }
-    getQueryVariable(variable) {    
-        var query = window.location.search.substring(1);    
+    getQueryVariable(variable) {
+        var query = window.location.search.substring(1);
         var vars = query.split("&");
         for (var i=0; i < vars.length; i++) {
             var pair = vars[i].split("=");
@@ -240,7 +239,7 @@ class solReact {//Soluciones en ReactJS
                 return pair[1];
             }
         }
-        return false;
+        return undefined;
     }
 
     /**
@@ -255,9 +254,9 @@ class solReact {//Soluciones en ReactJS
         for(var i=0;i<form.elements.length;i++){
             console.log(form.elements[i].type);
             if(form.elements[i].type==='text'&&form.elements[i].name!==myfield){
-                form.elements[i].value='';                
+                form.elements[i].value='';
             }
-        }        
+        }
         return true;
     }
 

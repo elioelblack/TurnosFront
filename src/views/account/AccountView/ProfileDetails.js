@@ -69,7 +69,7 @@ class ProfileDetails extends Component {
       e_dui:false,
       sucursales: [
         {value: 1,label: 'Central'},
-        {value: 2,label: 'Santa Tecla'}
+        {value: 3,label: 'Santa Tecla'}
       ],
       id_sucursal:1,
       fecha_nacimiento:new Date(),
@@ -274,7 +274,7 @@ class ProfileDetails extends Component {
       //console.log(response)
       toast.success("Creado correctamente!")
       this.setState({redirect:true})
-      window.location="/app/users";
+      window.location="/turnos/app/users";
     }).catch(err=>{
       toast.error(String(err).substring(0,400))
     })
@@ -630,7 +630,7 @@ class ProfileDetails extends Component {
               color="primary"
               variant="contained"
               style={{marginLeft:5}}
-              onClick={(e)=>{window.location="/app/users"}}
+              onClick={(e)=>{window.location="/turnos/app/users"}}
             >
               Regresar
             </Button>

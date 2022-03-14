@@ -123,7 +123,7 @@ class StationView extends Component {
             .then(response => {
                 toast.success('Guardado correctamente')
                 setTimeout(() => {
-                    window.location = '/app/stations'
+                    window.location = '/turnos/app/stations'
                 }, 1000);
             }).catch(err => {
                 console.error(err)
@@ -261,7 +261,7 @@ class StationView extends Component {
                                             color="primary"
                                             variant="contained"
                                             style={{ marginLeft: 5 }}
-                                            onClick={(e) => { window.location = "/app/stations" }}
+                                            onClick={(e) => { window.location = "/turnos/app/stations" }}
                                         >
                                             Regresar
                                         </Button>
