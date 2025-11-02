@@ -253,7 +253,7 @@ class KioskoView extends Component {
                 </Dialog>
                 <ReactToPrint
                     content={this.reactToPrintContent}
-                    documentTitle="AwesomeFileName"
+                    documentTitle="QueueApp - Ticket"
                     removeAfterPrint
                     trigger={this.reactToPrintTrigger}
                 />

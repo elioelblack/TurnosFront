@@ -16,6 +16,7 @@ import tvService from "./service/tvService";
 import { toast } from "react-toastify";
 
 //const SOCKET_URL = 'http://74.208.187.67:8080/Turnos/test-socket';
+//const SOCKET_URL = 'https://turnosapi.fly.dev/test-socket';
 const SOCKET_URL = 'http://localhost:8080/test-socket';
 export default class TvView extends Component {
     constructor(props) {
@@ -174,7 +175,7 @@ export default class TvView extends Component {
                                 //headers={requestOptions}
                                 proxy={{
                                     "/ws/**": {
-                                        "target": "http://74.208.187.67:8080/Turnos/test-socket",
+                                        "target": "http://localhost:8080/test-socket",
                                         "changeOrigin": true
                                     }
                                 }}
@@ -188,7 +189,7 @@ export default class TvView extends Component {
                                 //headers={requestOptions}
                                 proxy={{
                                     "/ws/**": {
-                                        "target": "http://74.208.187.67:8080/Turnos/test-socket",
+                                        "target": "http://localhost:8080/test-socket",
                                         "changeOrigin": true
                                     }
                                 }}
