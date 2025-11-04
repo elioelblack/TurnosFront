@@ -19,9 +19,15 @@ import VolumeUp from '@material-ui/icons/VolumeUp';
 import atencionService from "./service/atencionService";
 import { toast } from "react-toastify";
 import SockJsClient from 'react-stomp';
+import AuthenticationService from "src/service/AuthenticationService";
+
+const API_URL = AuthenticationService.getApiUrl();
 
 //const SOCKET_URL = 'http://74.208.187.67:8080/Turnos/test-socket';
-const SOCKET_URL = 'http://localhost:8080/test-socket';
+
+//const SOCKET_URL = 'http://localhost:8080/test-socket';
+const SOCKET_URL = `${AuthenticationService.getApiUrl()}/test-socket`;
+
 export default class AtencionTurno extends Component {
     constructor(props) {
         super(props)
@@ -274,7 +280,7 @@ export default class AtencionTurno extends Component {
                     //headers={requestOptions}
                     proxy= {{
                             "/ws/**": {
-                            "target": "http://localhost:8080/test-socket",
+                            "target": SOCKET_URL,
                             "changeOrigin": true
                             }
                         }}
@@ -288,7 +294,7 @@ export default class AtencionTurno extends Component {
                     //headers={requestOptions}
                     proxy= {{
                             "/ws/**": {
-                            "target": "http://localhost:8080/test-socket",
+                            "target": SOCKET_URL,
                             "changeOrigin": true
                             }
                         }}

@@ -47,6 +47,7 @@ const CategoryStation = ({ data }) => {
     }
 
     function loadAllStationsBySite(idSite,idCateg) {
+        console.log('Cargando estaciones para la sucursal '+idSite)
         categoryService.findStationBySite(idSite,idCateg)
             .then(response => {
                 setRows(response.data)
@@ -73,6 +74,7 @@ const CategoryStation = ({ data }) => {
     }
 
     function handleChangeSucursal(e, idData) {
+        console.log(e.target.value)
         let idPk = e.target.value
         setIdSucursal(idPk)
         if(idPk!==''){

@@ -39,7 +39,9 @@ export default class Category extends Component {
             rangoPrioridad: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
             estaciones: [],
             estacionesSeleted: [],
-            categoriaUpdate:null
+            categoriaUpdate:null,
+            e_prefijo: false,
+            e_prefijo_msj: ''
         }
     }
 
@@ -139,7 +141,11 @@ export default class Category extends Component {
             toast.warn('Prioridad es requerido')
             this.setState({ e_prioridad: true })
             this.setState({ isLoading: false })
-        } else {
+        } else if(this.state.prefijo===''){
+            toast.warn('Prefijo es requerido')
+            this.setState({ e_prefijo: true , e_prefijo_msj:'Prefijo es requerido'})
+            this.setState({ isLoading: false })
+        }else {
             let obj = {
                 nombre: this.state.nombre,
                 descripcion: this.state.descripcion,
@@ -250,8 +256,9 @@ export default class Category extends Component {
                                                     value={this.state.prefijo.toUpperCase()}
                                                     type="text"
                                                     variant="outlined"
-                                                    helperText={this.state.e_dui ? this.state.e_dui_msj : ""}
-                                                    error={this.state.e_dui}
+                                                    required
+                                                    helperText={this.state.e_prefijo ? this.state.e_prefijo_msj : ""}
+                                                    error={this.state.e_prefijo}
                                                 />}
                                             </InputMask>
                                         </Grid>
@@ -326,6 +333,7 @@ export default class Category extends Component {
                         </form>
                     </Box>
 
+                    {action!=='new'&&(
                     <Box mt={3}>
                         <Card>
                             <CardHeader
@@ -348,7 +356,7 @@ export default class Category extends Component {
                                 </Grid>
                             </CardContent>
                         </Card>
-                    </Box>
+                    </Box>)}
                 </Container>
             </Page>
 

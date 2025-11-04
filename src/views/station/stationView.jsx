@@ -30,10 +30,9 @@ class StationView extends Component {
             e_nombre: false,
             descripcion: '',
             activo: true,
-            sucursales: [
-                { value: 1, label: 'Central' }
-            ],
-            id_sucursal: 1,
+            sucursales: [],
+            id_sucursal: "",
+            e_sucursal:false,
             ocupado: false,
             isLoading: false
         }
@@ -102,6 +101,10 @@ class StationView extends Component {
             toast.warn('Nombre de la estación es requerido')
             this.setState({ e_nombre: true })
             this.setState({ isLoading: false })
+        } else if(this.state.id_sucursal===''){
+            toast.warn('Sucursal es requerida')
+            this.setState({ isLoading: false })
+            this.setState({ e_sucursal: true })
         } else {
             let obj = {
                 nombre: this.state.nombre,
@@ -230,7 +233,10 @@ class StationView extends Component {
                                                 SelectProps={{ native: true }}
                                                 value={this.state.id_sucursal}
                                                 variant="outlined"
+                                                InputLabelProps={{ shrink: true }}
+                                                error={this.state.e_sucursal}
                                             >
+                                                <option value="">Seleccione una sucursal</option>
                                                 {this.state.sucursales.map((option) => (
                                                     <option
                                                         key={option.idSucursal}

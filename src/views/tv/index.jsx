@@ -14,10 +14,12 @@ import Results from "./Results";
 import SockJsClient from 'react-stomp';
 import tvService from "./service/tvService";
 import { toast } from "react-toastify";
+import AuthenticationService from "src/service/AuthenticationService";
 
 //const SOCKET_URL = 'http://74.208.187.67:8080/Turnos/test-socket';
 //const SOCKET_URL = 'https://turnosapi.fly.dev/test-socket';
-const SOCKET_URL = 'http://localhost:8080/test-socket';
+//const SOCKET_URL = 'http://localhost:8080/test-socket';
+const SOCKET_URL = `${AuthenticationService.getApiUrl()}/test-socket`;
 export default class TvView extends Component {
     constructor(props) {
         super(props)
@@ -25,15 +27,69 @@ export default class TvView extends Component {
             isLoading: false,
             message: [],
             open: false,
-            msg: ''
+            msg: '',
+            audioEnabled: false,      // <- nuevo
+            voices: []                // <- cache de voces
         }
+        this.audioCtx = null;
+        this.supportsTTS = () =>
+            'speechSynthesis' in window && 'SpeechSynthesisUtterance' in window;
+
     }
 
+    // Click del usuario para habilitar sonido
+    enableSound = () => {
+        try {
+            // 1) AudioContext + tono silencioso muy corto
+            const AC = window.AudioContext || window.webkitAudioContext;
+            if (AC && !this.audioCtx) this.audioCtx = new AC();
+            if (this.audioCtx) {
+                if (this.audioCtx.state === 'suspended') this.audioCtx.resume();
+                const osc = this.audioCtx.createOscillator();
+                const gain = this.audioCtx.createGain();
+                gain.gain.value = 0.0001;              // prácticamente silencio
+                osc.connect(gain).connect(this.audioCtx.destination);
+                osc.start();
+                osc.stop(this.audioCtx.currentTime + 0.05);
+            }
+
+            // 2) Reproducir 100ms de silencio en <audio> para TVs/Android
+            const silentMp3 =
+                'data:audio/mp3;base64,//uQZAAAAAAAAAAAAAAAAAAAAAAAWGluZwAAAA8AAAACAAACcQCA' +
+                'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'; // silencio corto
+            const a = new Audio(silentMp3);
+            a.play().catch(() => { /* ignore */ });
+
+            // 3) “Precalentar” speechSynthesis (volumen 0)
+            if (this.supportsTTS()) {
+                const warm = new SpeechSynthesisUtterance('.');
+                warm.volume = 0;
+                window.speechSynthesis.speak(warm);
+            }
+
+            this.setState({ audioEnabled: true });
+            localStorage.setItem('tv_audio_enabled', '1');
+            // feedback visual
+            toast.success('Sonido habilitado');
+        } catch (e) {
+            console.error(e);
+            toast.error('No se pudo habilitar el sonido');
+        }
+    };
+
     componentDidMount() {
-        if (!('speechSynthesis' in window)) {
-            alert("Lo siento, tu navegador no soporta esta tecnología");
+        if (this.supportsTTS()) {
+            window.speechSynthesis.onvoiceschanged = () =>
+                this.setState({ voices: window.speechSynthesis.getVoices() });
+            this.setState({ voices: window.speechSynthesis.getVoices() });
         }
         this.loadturnToShow()
+    }
+
+    componentWillMount() {
+        // si lo guardaste antes, lo respetas
+        const saved = localStorage.getItem('tv_audio_enabled') === '1';
+        if (saved) this.state.audioEnabled = true; // set inicial
     }
 
     loadturnToShow() {
@@ -68,24 +124,27 @@ export default class TvView extends Component {
         let msgToListen = 'Turno ' + msg.consecutivo + ' en ' + msg.estacion
         console.log(msgToListen)
 
+        if (!this.state.audioEnabled) {
+            toast.info('Haz clic en "Habilitar sonido" para escuchar los avisos');
+        } else {
+            let miPrimeraPromise = new Promise((resolve, reject) => {
+                // Llamamos a resolve(...) cuando lo que estabamos haciendo finaliza con éxito, y reject(...) cuando falla.
+                // En este ejemplo, usamos setTimeout(...) para simular código asíncrono.
+                // En la vida real, probablemente uses algo como XHR o una API HTML5.
+                this.speakMsg(msgToListen)
+                this.onHandleOpenModal(msgToListen)
+                setTimeout(function () {
+                    resolve("¡Éxito!"); // ¡Todo salió bien!
+                }, 3000);
+            });
 
-        let miPrimeraPromise = new Promise((resolve, reject) => {
-            // Llamamos a resolve(...) cuando lo que estabamos haciendo finaliza con éxito, y reject(...) cuando falla.
-            // En este ejemplo, usamos setTimeout(...) para simular código asíncrono.
-            // En la vida real, probablemente uses algo como XHR o una API HTML5.
-            this.speakMsg(msgToListen)
-            this.onHandleOpenModal(msgToListen)
-            setTimeout(function () {
-                resolve("¡Éxito!"); // ¡Todo salió bien!
-            }, 3000);
-        });
-
-        miPrimeraPromise.then((successMessage) => {
-            // succesMessage es lo que sea que pasamos en la función resolve(...) de arriba.
-            // No tiene por qué ser un string, pero si solo es un mensaje de éxito, probablemente lo sea.
-            console.log("¡Sí! " + successMessage);
-            this.setState({ open: false })
-        });
+            miPrimeraPromise.then((successMessage) => {
+                // succesMessage es lo que sea que pasamos en la función resolve(...) de arriba.
+                // No tiene por qué ser un string, pero si solo es un mensaje de éxito, probablemente lo sea.
+                console.log("¡Sí! " + successMessage);
+                this.setState({ open: false })
+            });
+        }
     }
 
     onConnected = () => {
@@ -111,7 +170,7 @@ export default class TvView extends Component {
         mensaje.volume = 1;
         mensaje.rate = 1;
         mensaje.text = textoAEscuchar;
-        mensaje.pitch = 0.7;
+        mensaje.pitch = 0.5;
         // ¡Parla!
         speechSynthesis.speak(mensaje);
 
@@ -127,6 +186,7 @@ export default class TvView extends Component {
 
     render() {
         const classes = this.useStyles;
+        const { audioEnabled } = this.state;
         return (
             <Context.Consumer>
                 {({ stationAttended, destroyStationAttended }) => {
@@ -135,6 +195,24 @@ export default class TvView extends Component {
                             className={classes.root}
                             title={"Lista de turnos"}
                         >
+                            {/* Botón flotante para habilitar sonido, solo si no está activo */}
+                            {!audioEnabled && (
+                                <Box
+                                    position="fixed"
+                                    bottom={16}
+                                    right={16}
+                                    zIndex={2000}
+                                    onClick={this.enableSound}
+                                    sx={{
+                                        cursor: 'pointer',
+                                        background: '#3f51b5',
+                                        color: '#fff',
+                                        px: 2, py: 1, borderRadius: 1, boxShadow: 3
+                                    }}
+                                >
+                                    Habilitar sonido
+                                </Box>
+                            )}
                             <Box
                                 display="flex"
                                 flexDirection="column"
@@ -175,7 +253,7 @@ export default class TvView extends Component {
                                 //headers={requestOptions}
                                 proxy={{
                                     "/ws/**": {
-                                        "target": "http://localhost:8080/test-socket",
+                                        "target": SOCKET_URL,
                                         "changeOrigin": true
                                     }
                                 }}
@@ -189,7 +267,7 @@ export default class TvView extends Component {
                                 //headers={requestOptions}
                                 proxy={{
                                     "/ws/**": {
-                                        "target": "http://localhost:8080/test-socket",
+                                        "target": SOCKET_URL,
                                         "changeOrigin": true
                                     }
                                 }}
