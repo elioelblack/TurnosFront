@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-const API_URL = process.env.REACT_APP_API_URL || '/api';
-//let API_URL = 'http://localhost:8080/api';
+//const API_URL = process.env.REACT_APP_API_URL || '/api';
+let API_URL = 'http://localhost:8080/api';
 
 export let USER_NAME_SESSION_ATTRIBUTE_NAME = 'user'
 export let TOKEN_USER = "token";

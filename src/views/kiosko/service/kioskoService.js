@@ -20,6 +20,10 @@ class KioskoService {
     save(data) {
         return axios.post(`${API_URL}/kiosko/turno`,data);
     }
+
+    getLogoByte(){
+        return axios.get(`${API_URL}/kiosko/image`, { responseType: 'arraybuffer' });
+    }
 }
 
 export const findAllr = async () => {
